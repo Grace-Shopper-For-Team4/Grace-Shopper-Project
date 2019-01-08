@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const Products = require('../db/models/products')
+const Product = require('../db/models/product')
 
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Products.findAll()
+    const products = await Product.findAll()
     if (products.length) {
       res.json(products)
     } else {
