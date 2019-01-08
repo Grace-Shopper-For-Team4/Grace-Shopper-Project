@@ -14,7 +14,7 @@ const NavigationBar = ({handleClick, isLoggedIn}) => (
     </Navbar.Header>
 
     <Nav>
-      <NavItem eventKey={1} href="/">
+      <NavItem eventKey={1} href="/products">
         AllProduct
       </NavItem>
       <NavItem eventKey={2} href="/type1">
