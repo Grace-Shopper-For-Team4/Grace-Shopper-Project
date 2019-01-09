@@ -16,7 +16,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Obsidian#/media/File:Lipari-Obsidienne_(5).jpg',
       price: 100,
-      type: 'igneos'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'granite',
@@ -26,7 +26,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Granite#/media/File:Fj%C3%A6regranitt3.JPG',
       price: 30,
-      type: 'metamorphasis'
+      type: 'Metamorphic'
     }),
     Product.create({
       name: 'quartz',
@@ -36,7 +36,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Quartz#/media/File:Quartz,_Tibet.jpg',
       price: 40,
-      type: 'sedimentary'
+      type: 'Sedimentary'
     }),
     Product.create({
       name: 'basalt',
@@ -46,7 +46,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Basalt#/media/File:BasaltUSGOV.jpg',
       price: 100,
-      type: 'rock'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'limestone',
@@ -56,7 +56,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Limestone#/media/File:Torcaldeantequera.jpg',
       price: 100,
-      type: 'rock'
+      type: 'Sedimentary'
     }),
     Product.create({
       name: 'shale',
@@ -66,7 +66,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Shale#/media/File:ShaleUSGOV.jpg',
       price: 200,
-      type: 'rock'
+      type: 'Sedimentary'
     }),
     Product.create({
       name: 'obsidian',
@@ -76,7 +76,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Obsidian#/media/File:Lipari-Obsidienne_(5).jpg',
       price: 100,
-      type: 'igneos'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'granite',
@@ -86,7 +86,7 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Granite#/media/File:Fj%C3%A6regranitt3.JPG',
       price: 30,
-      type: 'metamorphasis'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'quartz',
@@ -96,7 +96,15 @@ async function seed() {
       imageUrl:
         'https://en.wikipedia.org/wiki/Quartz#/media/File:Quartz,_Tibet.jpg',
       price: 40,
-      type: 'sedimentary'
+      type: 'Sedimentary'
+    }),
+    Product.create({
+      name: 'Dwayne Johnson',
+      description: 'More dangerous than granite.',
+      quantity: 20,
+      imageUrl: 'https://bit.ly/2lHBJQo',
+      price: 0,
+      type: 'The Rock'
     })
   ])
   console.log(`seeded ${products.length} products`)
