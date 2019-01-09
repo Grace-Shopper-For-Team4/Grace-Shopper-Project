@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {logout} from '../store'
 import {Nav, Navbar, NavItem} from 'react-bootstrap'
+import User from './user-home'
 
 const NavigationBar = ({handleClick, isLoggedIn}) => (
   <Navbar inverse collapseOnSelect>
@@ -39,8 +40,8 @@ const NavigationBar = ({handleClick, isLoggedIn}) => (
       {isLoggedIn ? (
         <Nav pullRight>
           {/* The navbar will show these links after you log in */}
-          <NavItem eventKey={1} to="/">
-            AllProduct
+          <NavItem eventKey={1} to="/products">
+            <User />
           </NavItem>
           <NavItem onClick={handleClick} eventKey={2} href="#">
             Logout
