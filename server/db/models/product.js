@@ -13,26 +13,24 @@ const Product = db.define('product', {
   quantity: {
     type: Sequelize.INTEGER,
     validate: {
-      min: 0,
-      max: 100000
+      min: 0
     }
   },
   imageUrl: {
-    type: Sequelize.TEXT,
-    validate: {
-      isUrl: true
-    },
-    defaultValue: ''
+    type: Sequelize.STRING,
+    defaultValue: 'https://bit.ly/2lHBJQo'
   },
   price: {
     type: Sequelize.INTEGER,
     validate: {
       min: 0
-    }
+    },
+    allowNull: false
   },
   type: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.ENUM('Igneous', 'Metamorphic', 'Sedimentary', 'The Rock'),
+    allowNull: false,
+    defaultValue: 'The Rock'
   }
 })
 
