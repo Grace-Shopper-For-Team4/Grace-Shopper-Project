@@ -15,3 +15,10 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+/*
+CG: Thoughts for restful routing.
+  /users/:id
+  /users/:id/cart
+  /users/:id/orders
+*/

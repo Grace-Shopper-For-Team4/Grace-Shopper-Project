@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const GOT_PRODUCTS_FROM_SERVER = 'GOT_PRODUCTS_FROM_SERVER'
 
+//CG: Reducers are about how you INTERACT with data.
 export const gotProductsFromServer = products => ({
   type: GOT_PRODUCTS_FROM_SERVER,
   products
@@ -14,7 +15,14 @@ export const getProductsFromServer = () => {
     dispatch(action)
   }
 }
+/*
+  {
+    products: [],
+    selectedProduct: {},
+    filterCategory: ''
+  }
 
+*/
 const initialState = null
 
 const productReducer = (state = initialState, action) => {

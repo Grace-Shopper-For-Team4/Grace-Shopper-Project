@@ -10,6 +10,7 @@ const Product = db.define('product', {
     type: Sequelize.TEXT,
     allowNull: false
   },
+  //CG: I don't know that maximum is a necessary validation.
   quantity: {
     type: Sequelize.INTEGER,
     validate: {
@@ -17,6 +18,7 @@ const Product = db.define('product', {
       max: 100000
     }
   },
+  //CG: If possible put this a string. 
   imageUrl: {
     type: Sequelize.TEXT,
     validate: {
@@ -29,7 +31,7 @@ const Product = db.define('product', {
     validate: {
       min: 0
     }
-  },
+  }, //CG: Consider ENUM support. (Igneous, igneous)
   type: {
     type: Sequelize.STRING,
     allowNull: false

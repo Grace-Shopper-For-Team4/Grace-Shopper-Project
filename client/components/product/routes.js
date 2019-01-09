@@ -12,6 +12,11 @@ class ProductsRoutes extends Component {
   componentDidMount() {
     this.props.fetchProducts()
   }
+  // /products/4
+  // /products
+  // /products?type=igneous
+  // /products/type/igneous
+  // /products/igneous
   render() {
     const {products} = this.props
     return products ? (
