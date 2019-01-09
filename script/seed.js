@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Product} = require('../server/db/models')
+const {User, Product, Order, OrderProduct} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -12,7 +12,7 @@ async function seed() {
       name: 'obsidian',
       description:
         'Obsidian is a naturally occurring volcanic glass formed as an extrusive igneous rock. Obsidian is produced when felsic lava extruded from a volcano cools rapidly with minimal crystal growth.',
-      quantity: 100,
+      stockQuantity: 100,
       imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
       price: 100,
       type: 'Igneous'
@@ -21,7 +21,7 @@ async function seed() {
       name: 'granite',
       description:
         'Granite is a common type of felsic intrusive igneous rock that is granular and phaneritic in texture. Granites can be predominantly white, pink, or gray in color, depending on their mineralogy.',
-      quantity: 500,
+      stockQuantity: 500,
       imageUrl:
         'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
       price: 30,
@@ -31,7 +31,7 @@ async function seed() {
       name: 'quartz',
       description:
         'Quartz is a mineral composed of silicon and oxygen atoms in a continuous framework of SiO₄ silicon–oxygen tetrahedra, with each oxygen being shared between two tetrahedra, giving an overall chemical formula of SiO₂. Quartz is the second most abundant mineral in Earths continental crust, behind feldspar.',
-      quantity: 20,
+      stockQuantity: 20,
       imageUrl:
         'http://www.galleries.com/minerals/gemstone/rose_qua/roq-28.jpg',
       price: 40,
@@ -41,7 +41,7 @@ async function seed() {
       name: 'basalt',
       description:
         'a dark, fine-grained volcanic rock that sometimes displays a columnar structure. It is typically composed largely of plagioclase with pyroxene and olivine.',
-      quantity: 50,
+      stockQuantity: 50,
       imageUrl: 'https://geology.com/rocks/pictures/basalt-380.jpg',
       price: 100,
       type: 'Igneous'
@@ -50,7 +50,7 @@ async function seed() {
       name: 'limestone',
       description:
         'Limestone is a sedimentary rock, composed mainly of skeletal fragments of marine organisms such as coral, forams and molluscs',
-      quantity: 40,
+      stockQuantity: 40,
       imageUrl: 'https://geology.com/rocks/pictures/limestone-tufa-380.jpg',
       price: 100,
       type: 'Sedimentary'
@@ -59,7 +59,7 @@ async function seed() {
       name: 'shale',
       description:
         'Shale is a fine-grained, clastic sedimentary rock composed of mud that is a mix of flakes of clay minerals and tiny fragments of other minerals, especially quartz and calcite. Shale is characterized by breaks along thin laminae or parallel layering or bedding less than one centimeter in thickness, called fissility',
-      quantity: 30,
+      stockQuantity: 30,
       imageUrl:
         'https://www.thoughtco.com/thmb/lAcAtCAwY7l_0uKtQzAaUFtcRSE=/500x378/filters:no_upscale()/basaltcrust-56a367293df78cf7727d2fe1.jpg',
       price: 200,
@@ -69,7 +69,7 @@ async function seed() {
       name: 'obsidian',
       description:
         'Obsidian is a naturally occurring volcanic glass formed as an extrusive igneous rock. Obsidian is produced when felsic lava extruded from a volcano cools rapidly with minimal crystal growth.',
-      quantity: 100,
+      stockQuantity: 100,
       imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
       price: 100,
       type: 'Igneous'
@@ -78,32 +78,22 @@ async function seed() {
       name: 'granite',
       description:
         'Granite is a common type of felsic intrusive igneous rock that is granular and phaneritic in texture. Granites can be predominantly white, pink, or gray in color, depending on their mineralogy.',
-      quantity: 500,
+      stockQuantity: 500,
       imageUrl:
         'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
       price: 30,
       type: 'Igneous'
     }),
     Product.create({
-      name: 'quartz',
-      description:
-        'Quartz is a mineral composed of silicon and oxygen atoms in a continuous framework of SiO₄ silicon–oxygen tetrahedra, with each oxygen being shared between two tetrahedra, giving an overall chemical formula of SiO₂. Quartz is the second most abundant mineral in Earths continental crust, behind feldspar.',
-      quantity: 20,
-      imageUrl:
-        'http://www.galleries.com/minerals/gemstone/rose_qua/roq-28.jpg',
-      price: 40,
-      type: 'Sedimentary'
-    }),
-    Product.create({
       name: 'Dwayne Johnson',
       description: 'More dangerous than granite.',
-      quantity: 20,
+      stockQuantity: 20,
       imageUrl: 'https://bit.ly/2lHBJQo',
       price: 0,
       type: 'The Rock'
     })
   ])
-  console.log(`seeded ${products.length} products`)
+  console.log(`seeded ${products.length} products successfully`)
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
@@ -111,6 +101,48 @@ async function seed() {
   ])
 
   console.log(`seeded ${users.length} users`)
+
+  const cart = await Promise.all([
+    Order.create({userId: 1}),
+    Order.create({userId: 2})
+  ])
+
+  console.log(`seeded ${cart.length} cartProducts`)
+
+  const cartProducts = await Promise.all([
+    OrderProduct.create({
+      orderId: 1,
+      productId: 1,
+      quantity: 1
+    }),
+    OrderProduct.create({
+      orderId: 1,
+      productId: 2,
+      quantity: 1
+    }),
+    OrderProduct.create({
+      orderId: 1,
+      productId: 3,
+      quantity: 1
+    }),
+    OrderProduct.create({
+      orderId: 1,
+      productId: 4,
+      quantity: 1
+    }),
+    OrderProduct.create({
+      orderId: 1,
+      productId: 5,
+      quantity: 1
+    }),
+    OrderProduct.create({
+      orderId: 1,
+      productId: 9,
+      quantity: 1
+    })
+  ])
+
+  console.log(`seeded ${cartProducts.length} orderProducts`)
   console.log(`seeded successfully`)
 }
 

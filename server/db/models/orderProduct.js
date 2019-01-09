@@ -4,6 +4,7 @@ const db = require('../db')
 const OrderProduct = db.define('orderProduct', {
   quantity: {
     type: Sequelize.INTEGER,
+    defaultValue: 1,
     validate: {
       min: 1
     }
@@ -12,8 +13,7 @@ const OrderProduct = db.define('orderProduct', {
     type: Sequelize.INTEGER,
     validate: {
       min: 0
-    },
-    allowNull: false
+    }
   }
 })
 
