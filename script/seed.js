@@ -13,8 +13,7 @@ async function seed() {
       description:
         'Obsidian is a naturally occurring volcanic glass formed as an extrusive igneous rock. Obsidian is produced when felsic lava extruded from a volcano cools rapidly with minimal crystal growth.',
       quantity: 100,
-      imageUrl:
-        'https://en.wikipedia.org/wiki/Obsidian#/media/File:Lipari-Obsidienne_(5).jpg',
+      imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
       price: 100,
       type: 'igneos'
     }),
@@ -24,7 +23,7 @@ async function seed() {
         'Granite is a common type of felsic intrusive igneous rock that is granular and phaneritic in texture. Granites can be predominantly white, pink, or gray in color, depending on their mineralogy.',
       quantity: 500,
       imageUrl:
-        'https://en.wikipedia.org/wiki/Granite#/media/File:Fj%C3%A6regranitt3.JPG',
+        'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
       price: 30,
       type: 'metamorphasis'
     }),
@@ -34,7 +33,7 @@ async function seed() {
         'Quartz is a mineral composed of silicon and oxygen atoms in a continuous framework of SiO₄ silicon–oxygen tetrahedra, with each oxygen being shared between two tetrahedra, giving an overall chemical formula of SiO₂. Quartz is the second most abundant mineral in Earths continental crust, behind feldspar.',
       quantity: 20,
       imageUrl:
-        'https://en.wikipedia.org/wiki/Quartz#/media/File:Quartz,_Tibet.jpg',
+        'http://www.galleries.com/minerals/gemstone/rose_qua/roq-28.jpg',
       price: 40,
       type: 'sedimentary'
     }),
@@ -43,8 +42,7 @@ async function seed() {
       description:
         'a dark, fine-grained volcanic rock that sometimes displays a columnar structure. It is typically composed largely of plagioclase with pyroxene and olivine.',
       quantity: 50,
-      imageUrl:
-        'https://en.wikipedia.org/wiki/Basalt#/media/File:BasaltUSGOV.jpg',
+      imageUrl: 'https://geology.com/rocks/pictures/basalt-380.jpg',
       price: 100,
       type: 'rock'
     }),
@@ -53,8 +51,7 @@ async function seed() {
       description:
         'Limestone is a sedimentary rock, composed mainly of skeletal fragments of marine organisms such as coral, forams and molluscs',
       quantity: 40,
-      imageUrl:
-        'https://en.wikipedia.org/wiki/Limestone#/media/File:Torcaldeantequera.jpg',
+      imageUrl: 'https://geology.com/rocks/pictures/limestone-tufa-380.jpg',
       price: 100,
       type: 'rock'
     }),
@@ -64,7 +61,7 @@ async function seed() {
         'Shale is a fine-grained, clastic sedimentary rock composed of mud that is a mix of flakes of clay minerals and tiny fragments of other minerals, especially quartz and calcite. Shale is characterized by breaks along thin laminae or parallel layering or bedding less than one centimeter in thickness, called fissility',
       quantity: 30,
       imageUrl:
-        'https://en.wikipedia.org/wiki/Shale#/media/File:ShaleUSGOV.jpg',
+        'https://www.thoughtco.com/thmb/lAcAtCAwY7l_0uKtQzAaUFtcRSE=/500x378/filters:no_upscale()/basaltcrust-56a367293df78cf7727d2fe1.jpg',
       price: 200,
       type: 'rock'
     }),
@@ -73,8 +70,7 @@ async function seed() {
       description:
         'Obsidian is a naturally occurring volcanic glass formed as an extrusive igneous rock. Obsidian is produced when felsic lava extruded from a volcano cools rapidly with minimal crystal growth.',
       quantity: 100,
-      imageUrl:
-        'https://en.wikipedia.org/wiki/Obsidian#/media/File:Lipari-Obsidienne_(5).jpg',
+      imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
       price: 100,
       type: 'igneos'
     }),
@@ -84,7 +80,7 @@ async function seed() {
         'Granite is a common type of felsic intrusive igneous rock that is granular and phaneritic in texture. Granites can be predominantly white, pink, or gray in color, depending on their mineralogy.',
       quantity: 500,
       imageUrl:
-        'https://en.wikipedia.org/wiki/Granite#/media/File:Fj%C3%A6regranitt3.JPG',
+        'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
       price: 30,
       type: 'metamorphasis'
     }),
@@ -94,7 +90,7 @@ async function seed() {
         'Quartz is a mineral composed of silicon and oxygen atoms in a continuous framework of SiO₄ silicon–oxygen tetrahedra, with each oxygen being shared between two tetrahedra, giving an overall chemical formula of SiO₂. Quartz is the second most abundant mineral in Earths continental crust, behind feldspar.',
       quantity: 20,
       imageUrl:
-        'https://en.wikipedia.org/wiki/Quartz#/media/File:Quartz,_Tibet.jpg',
+        'http://www.galleries.com/minerals/gemstone/rose_qua/roq-28.jpg',
       price: 40,
       type: 'sedimentary'
     })
