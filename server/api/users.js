@@ -38,15 +38,16 @@ router.post('/:id/cart', async (req, res, next) => {
           isBought: false
         }
       })
+      const orderId = order.dataValues.id
       const productExistsInCart = await OrderProduct.find({
-        where: {productId}
+        where: {productId, orderId}
       })
       // only allow user to add item to cart if it doesn't exist in cart already
       if (!productExistsInCart) {
         const product = await OrderProduct.create({
           productId,
           quantity,
-          orderId: order.dataValues.id
+          orderId
         })
         res.status(201).json(product)
       } else {
