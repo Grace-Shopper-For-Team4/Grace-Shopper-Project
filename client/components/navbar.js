@@ -32,7 +32,7 @@ const NavigationBar = ({handleClick, isLoggedIn}) => (
       </Nav>
 
       <Nav pullRight>
-        <NavItem eventKey={4}>
+        <NavItem eventKey={4} href="/cart">
           Cart <span className="quantity">0</span>
         </NavItem>
       </Nav>
