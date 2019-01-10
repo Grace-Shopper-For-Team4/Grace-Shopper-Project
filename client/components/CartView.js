@@ -6,7 +6,6 @@ import {fetchUserCart} from '../store/reducer/cart'
 
 class CartView extends React.Component {
   componentDidMount() {
-    console.log(this.props, 'props')
     if (this.props.userId) {
       this.props.fetchUserCart(this.props.userId)
     }

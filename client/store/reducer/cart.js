@@ -7,11 +7,9 @@ export const gotUserCart = cart => ({type: GOT_USER_CART, cart})
 
 // thunk creator
 export const fetchUserCart = id => {
-  console.log(id)
   return async dispatch => {
     try {
       const cart = await axios.get(`/api/users/${id}/cart`)
-      console.log(cart, 'cart in cartreducer')
       dispatch(gotUserCart(cart.data))
     } catch (error) {
       console.error(error)
