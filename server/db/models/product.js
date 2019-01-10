@@ -10,7 +10,8 @@ const Product = db.define('product', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  quantity: {
+  // change quantity to inventory or stock to avoid confusion
+  stockQuantity: {
     type: Sequelize.INTEGER,
     validate: {
       min: 0
