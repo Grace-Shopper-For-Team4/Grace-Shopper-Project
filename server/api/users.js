@@ -50,7 +50,7 @@ router.post('/:id/cart', async (req, res, next) => {
         })
         res.status(201).json(product)
       } else {
-        res.send(409, 'product exists in cart already')
+        res.status(409).send('product exists in cart already')
       }
     } else {
       res.sendStatus(401)
