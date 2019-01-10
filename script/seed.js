@@ -15,7 +15,7 @@ async function seed() {
       quantity: 100,
       imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
       price: 100,
-      type: 'igneos'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'granite',
@@ -25,7 +25,7 @@ async function seed() {
       imageUrl:
         'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
       price: 30,
-      type: 'metamorphasis'
+      type: 'Metamorphic'
     }),
     Product.create({
       name: 'quartz',
@@ -35,7 +35,7 @@ async function seed() {
       imageUrl:
         'http://www.galleries.com/minerals/gemstone/rose_qua/roq-28.jpg',
       price: 40,
-      type: 'sedimentary'
+      type: 'Sedimentary'
     }),
     Product.create({
       name: 'basalt',
@@ -44,7 +44,7 @@ async function seed() {
       quantity: 50,
       imageUrl: 'https://geology.com/rocks/pictures/basalt-380.jpg',
       price: 100,
-      type: 'rock'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'limestone',
@@ -53,7 +53,7 @@ async function seed() {
       quantity: 40,
       imageUrl: 'https://geology.com/rocks/pictures/limestone-tufa-380.jpg',
       price: 100,
-      type: 'rock'
+      type: 'Sedimentary'
     }),
     Product.create({
       name: 'shale',
@@ -63,7 +63,7 @@ async function seed() {
       imageUrl:
         'https://www.thoughtco.com/thmb/lAcAtCAwY7l_0uKtQzAaUFtcRSE=/500x378/filters:no_upscale()/basaltcrust-56a367293df78cf7727d2fe1.jpg',
       price: 200,
-      type: 'rock'
+      type: 'Sedimentary'
     }),
     Product.create({
       name: 'obsidian',
@@ -72,7 +72,7 @@ async function seed() {
       quantity: 100,
       imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
       price: 100,
-      type: 'igneos'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'granite',
@@ -82,7 +82,7 @@ async function seed() {
       imageUrl:
         'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
       price: 30,
-      type: 'metamorphasis'
+      type: 'Igneous'
     }),
     Product.create({
       name: 'quartz',
@@ -92,7 +92,15 @@ async function seed() {
       imageUrl:
         'http://www.galleries.com/minerals/gemstone/rose_qua/roq-28.jpg',
       price: 40,
-      type: 'sedimentary'
+      type: 'Sedimentary'
+    }),
+    Product.create({
+      name: 'Dwayne Johnson',
+      description: 'More dangerous than granite.',
+      quantity: 20,
+      imageUrl: 'https://bit.ly/2lHBJQo',
+      price: 0,
+      type: 'The Rock'
     })
   ])
   console.log(`seeded ${products.length} products`)
