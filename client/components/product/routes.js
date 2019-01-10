@@ -2,9 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import Products from './Products'
-import {getProductsFromServer} from '../../reducer/productsReducer'
+import {getProductsFromServer} from '../../store/reducer/products'
 import ErrorPage from '../errorPage'
 import {ProgressBar} from 'react-bootstrap'
+import queryString from 'query-string'
+import SingleProduct from './SingleProduct'
 /**
  * COMPONENT
  */
@@ -12,25 +14,35 @@ class ProductsRoutes extends Component {
   componentDidMount() {
     this.props.fetchProducts()
   }
+
   render() {
     const {products} = this.props
     return products ? (
       <Switch>
         <Route exact path="/products" component={Products} />
         <Route
-          path="/products/:type"
+          path="/products/:id"
           render={props => {
-            console.log(props)
-            console.log(products)
-            const type = props.match.params.type
-            const exist = products.filter(product => product.type === type)
-              .length
-            if (exist) {
-              return <Products {...props} />
-            } else {
-              return <ErrorPage />
-            }
+            const id = props.match.params.id
+            const exist = products.filter(product => product.id == id).length
+            if (exist) return <SingleProduct {...props} />
+            else return <ErrorPage />
           }}
+        />
+        <Route
+          path="/products?type=igneos"
+          // render={props => {
+          //   console.log(props)
+          //   console.log(products)
+          //   const type = props.match.params.type
+          //   const exist = products.filter(product => product.type === type)
+          //     .length
+          //   if (exist) {
+          //     return <Products {...props} />
+          //   } else {
+          //     return <ErrorPage />
+          //   }
+          // }}
         />
       </Switch>
     ) : (
@@ -39,7 +51,7 @@ class ProductsRoutes extends Component {
   }
 }
 const mapStateToProps = state => ({
-  products: state.products
+  products: state.productsReducer.products
 })
 
 const mapDispatchToProps = dispatch => ({
