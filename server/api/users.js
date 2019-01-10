@@ -32,13 +32,13 @@ router.post('/:id/cart', async (req, res, next) => {
   try {
     if (req.user && req.user.dataValues.id === Number(req.params.id)) {
       const {productId, quantity} = req.body
-      const order = await Order.findOne({
+      const response = await Order.findOrCreate({
         where: {
           userId: req.params.id,
           isBought: false
         }
       })
-      const orderId = order.dataValues.id
+      const orderId = response[0].dataValues.id
       const productExistsInCart = await OrderProduct.find({
         where: {productId, orderId}
       })
