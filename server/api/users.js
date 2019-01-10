@@ -7,14 +7,14 @@ module.exports = router
 router.get('/:id/cart', async (req, res, next) => {
   try {
     if (req.user && req.user.dataValues.id === Number(req.params.id)) {
-      const order = await Order.findOne({
+      const response = await Order.findOrCreate({
         where: {
           userId: req.params.id,
           isBought: false
         }
       })
       const cart = await OrderProduct.findAll({
-        where: {orderId: order.dataValues.id},
+        where: {orderId: response[0].dataValues.id},
         include: [{model: Product}]
       })
       res.json(cart)
@@ -53,6 +53,37 @@ router.post('/:id/cart', async (req, res, next) => {
       } else {
         res.status(409).send('product exists in cart already')
       }
+    } else {
+      res.sendStatus(401)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/:id/cart', async (req, res, next) => {
+  try {
+    if (req.user && req.user.dataValues.id === Number(req.params.id)) {
+      const {productId} = req.body
+      const order = await Order.findOne({
+        where: {
+          userId: req.params.id,
+          isBought: false
+        }
+      })
+      const orderId = order.dataValues.id
+
+      const orderProduct = await OrderProduct.findOne({
+        where: {
+          productId: productId,
+          orderId: orderId
+        }
+      })
+
+      if (orderProduct) {
+        await orderProduct.destroy()
+        res.status(204).send('Successfully Deleted')
+      } else res.sendStatus(404)
     } else {
       res.sendStatus(401)
     }
