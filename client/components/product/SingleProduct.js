@@ -23,8 +23,8 @@ const SingleProduct = props => {
           <h1 id="campusName">{product.name}</h1>
           <hr />
           <p>Description :{product.description} </p>
-          <p>Available Quantity:{product.quantity}</p>
-          <h3>Price: ${product.price}</h3>
+          <p>Available Quantity: {product.stockQuantity}</p>
+          <h3>Price: $ {product.price}</h3>
         </Col>
       </Row>
       <Row>

@@ -70,3 +70,20 @@ form div {
 #errorButton {
   text-align: center;
 }
+
+#authFormName {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+#googleButton {
+  margin-left: 1em;
+}
+
+#authError {
+  margin-left: 1em;
+  color: red;
+  font-weight: bold;
+}

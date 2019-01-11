@@ -17,7 +17,7 @@ const NavigationBar = ({handleClick, isLoggedIn}) => (
         <NavItem eventKey={1} href="/products">
           AllProduct
         </NavItem>
-        <NavItem eventKey={2} href="/products?type=igneos">
+        {/* <NavItem eventKey={2} href="/products?type=igneos">
           igneos
         </NavItem>
         <NavItem eventKey={3} href="/products/metamorphasis">
@@ -28,7 +28,7 @@ const NavigationBar = ({handleClick, isLoggedIn}) => (
         </NavItem>
         <NavItem eventKey={5} href="/products/rock">
           rock
-        </NavItem>
+        </NavItem> */}
       </Nav>
 
       <Nav pullRight>

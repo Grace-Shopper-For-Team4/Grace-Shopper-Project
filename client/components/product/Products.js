@@ -26,7 +26,7 @@ const Products = props => {
                 <NavLink to={`/products/${product.id}`}>
                   <h4>{product.name}</h4>
                 </NavLink>
-                <p>Quantity: {product.quantity}</p>
+                <p>Quantity: {product.stockQuantity}</p>
                 <p>Unit Price: ${product.price}</p>
                 <Button type="button" bsStyle="success">
                   Add To Cart

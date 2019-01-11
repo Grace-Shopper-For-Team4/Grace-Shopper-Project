@@ -1,7 +1,16 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import {SocialIcon} from 'react-social-icons'
 import {auth} from '../store'
+import {
+  Form,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Col,
+  Button
+} from 'react-bootstrap'
 
 /**
  * COMPONENT
@@ -11,25 +20,28 @@ const AuthForm = props => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      <div id="authFormName">
+        <h3>Please {displayName} </h3>
+      </div>
+      {error &&
+        error.response && <div id="authError"> {error.response.data} </div>}
+      <Form onSubmit={handleSubmit} name={name}>
+        <FormGroup controlId="formControlsEmail">
+          <ControlLabel className="pull-left">Email</ControlLabel>
+          <FormControl name="email" type="email" placeholder="Email" />
+        </FormGroup>
+
+        <FormGroup controlId="formControlsPassword">
+          <ControlLabel className="pull-left">Password</ControlLabel>
+          <FormControl name="password" type="password" placeholder="Password" />
+        </FormGroup>
+
+        <Button type="submit">{displayName}</Button>
+      </Form>
+      <Button id="googleButton" type="submit" href="/auth/google">
+        {displayName}{' '}
+        <SocialIcon url="http://google" style={{height: 25, width: 25}} />
+      </Button>
     </div>
   )
 }
