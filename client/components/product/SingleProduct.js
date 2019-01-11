@@ -6,13 +6,13 @@ import ErrorPage from '../errorPage'
 const SingleProduct = props => {
   const id = props.match.params.id
   const product = props.products.filter(item => item.id == id)[0]
-  console.log(id, props.products)
+
   return product ? (
     <Grid>
       <Row>
         <Col md={6}>
           <img
-            id="campusImage"
+            id="productImage"
             src={product.imageUrl}
             alt="image"
             width="350"
@@ -20,7 +20,7 @@ const SingleProduct = props => {
           />
         </Col>
         <Col md={6}>
-          <h1 id="campusName">{product.name}</h1>
+          <h1 id="productName">{product.name}</h1>
           <hr />
           <p>Description :{product.description} </p>
           <p>Available Quantity: {product.stockQuantity}</p>
