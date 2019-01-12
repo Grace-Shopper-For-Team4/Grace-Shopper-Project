@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {logout} from '../store'
-import {Nav, Navbar, NavItem} from 'react-bootstrap'
+import {Nav, Navbar, NavItem, Glyphicon} from 'react-bootstrap'
 import User from './user-home'
 
-const NavigationBar = ({handleClick, isLoggedIn}) => (
+const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
   <Navbar inverse collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
@@ -33,7 +33,8 @@ const NavigationBar = ({handleClick, isLoggedIn}) => (
 
       <Nav pullRight>
         <NavItem eventKey={4} href="/cart">
-          Cart <span className="quantity">0</span>
+          <Glyphicon glyph="shopping-cart" />{' '}
+          <span className="quantity">{totalQuantity}</span>
         </NavItem>
       </Nav>
 
@@ -66,8 +67,10 @@ const NavigationBar = ({handleClick, isLoggedIn}) => (
  * CONTAINER
  */
 const mapState = state => {
+  console.log(state.cartReducer.cart.length)
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    totalQuantity: state.cartReducer.cart.length
   }
 }
 

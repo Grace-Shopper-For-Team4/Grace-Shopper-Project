@@ -7,13 +7,18 @@ import ErrorPage from '../errorPage'
 import {ProgressBar} from 'react-bootstrap'
 import queryString from 'query-string'
 import SingleProduct from './SingleProduct'
+import {fetchCart} from '../../store/reducer/cart'
 /**
  * COMPONENT
  */
 class ProductsRoutes extends Component {
-  componentDidMount() {
-    this.props.fetchProducts()
-  }
+  // componentDidMount() {
+  //   this.props.fetchProducts()
+  // }
+
+  // componentDidUpdate() {
+  //   this.props.fetchCart(this.props.userId)
+  // }
 
   render() {
     const {products} = this.props
@@ -51,11 +56,13 @@ class ProductsRoutes extends Component {
   }
 }
 const mapStateToProps = state => ({
-  products: state.productsReducer.products
+  products: state.productsReducer.products,
+  userId: state.user.id
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProducts: () => dispatch(getProductsFromServer())
+  // fetchProducts: () => dispatch(getProductsFromServer())
+  // fetchCart: id => dispatch(fetchCart(id))
 })
 
 export default withRouter(
