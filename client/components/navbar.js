@@ -15,7 +15,7 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
     <Navbar.Collapse>
       <Nav>
         <NavItem eventKey={1} href="/products">
-          AllProduct
+          All Product
         </NavItem>
         {/* <NavItem eventKey={2} href="/products?type=igneos">
           igneos
