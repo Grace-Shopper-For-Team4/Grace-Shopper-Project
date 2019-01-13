@@ -2,11 +2,7 @@ import React from 'react'
 import {Grid, Row, Col, Button} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {
-  fetchCart,
-  removeProductFromCart,
-  addProductToCart
-} from '../store/reducer/cart'
+import {fetchCart, removeProductFromCart, addProductToCart} from '../store'
 
 const CartView = props => {
   return props.cart.length ? (

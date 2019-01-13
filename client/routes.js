@@ -11,17 +11,14 @@ import {
   ErrorPage
 } from './components'
 import {me, getProductsFromServer, fetchCart} from './store'
-import user from './store/reducer/user'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    console.log(this.props)
     this.props.loadInitialData()
     this.props.fetchProducts()
-    // fetch from local storage
     this.props.fetchCart(this.props.userId || 0)
   }
 

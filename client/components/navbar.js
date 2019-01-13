@@ -67,7 +67,6 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
  * CONTAINER
  */
 const mapState = state => {
-  console.log(state.cartReducer.cart.length)
   return {
     isLoggedIn: !!state.user.id,
     totalQuantity: state.cartReducer.cart.length

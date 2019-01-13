@@ -2,7 +2,7 @@ import React from 'react'
 import {Grid, Row, Col, Button} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {addProductToCart} from '../../store/reducer/cart'
+import {addProductToCart} from '../../store'
 
 const Products = props => {
   const {products, addProductToCart} = props

@@ -2,24 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import Products from './Products'
-import {getProductsFromServer} from '../../store/reducer/products'
 import ErrorPage from '../errorPage'
 import {ProgressBar} from 'react-bootstrap'
 import queryString from 'query-string'
 import SingleProduct from './SingleProduct'
-import {fetchCart} from '../../store/reducer/cart'
 /**
  * COMPONENT
  */
 class ProductsRoutes extends Component {
-  // componentDidMount() {
-  //   this.props.fetchProducts()
-  // }
-
-  // componentDidUpdate() {
-  //   this.props.fetchCart(this.props.userId)
-  // }
-
   render() {
     const {products} = this.props
     return products ? (
@@ -60,11 +50,4 @@ const mapStateToProps = state => ({
   userId: state.user.id
 })
 
-const mapDispatchToProps = dispatch => ({
-  // fetchProducts: () => dispatch(getProductsFromServer())
-  // fetchCart: id => dispatch(fetchCart(id))
-})
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductsRoutes)
-)
+export default withRouter(connect(mapStateToProps, null)(ProductsRoutes))

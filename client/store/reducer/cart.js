@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 // action type
-const GOT_USER_CART = 'GOT_USER_CART'
+const GOT_CART = 'GOT_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 //action creator export const all
-export const gotUserCart = cart => ({type: GOT_USER_CART, cart})
+export const gotCart = cart => ({type: GOT_CART, cart})
 
 // thunk creator
 export const fetchCart = id => {
@@ -27,7 +27,7 @@ export const fetchCart = id => {
           }
         })
       }
-      dispatch(gotUserCart(newCart))
+      dispatch(gotCart(newCart))
     } catch (error) {
       console.error(error)
     }
@@ -36,7 +36,6 @@ export const fetchCart = id => {
 export const addCart = product => ({type: ADD_TO_CART, product})
 
 export const addProductToCart = (product, id) => {
-  console.log(product, id)
   const productId = product.id
   return async dispatch => {
     try {
@@ -61,7 +60,6 @@ export const addProductToCart = (product, id) => {
         product = response.data
       }
       if (product) dispatch(addCart(product))
-      console.log(JSON.parse(window.localStorage.cart))
     } catch (error) {
       console.error(error)
     }
@@ -71,19 +69,20 @@ export const addProductToCart = (product, id) => {
 export const removeCart = productId => ({type: REMOVE_FROM_CART, productId})
 
 export const removeProductFromCart = (productId, id) => {
-  if (!id) {
-    //do sth with local cache
-    console.log(window.localStorage)
-  } else {
-    return async dispatch => {
-      try {
+  return async dispatch => {
+    try {
+      if (!id) {
+        const cart = JSON.parse(window.localStorage.getItem('cart'))
+        const newCart = cart.filter(item => item.id !== productId)
+        window.localStorage.setItem('cart', JSON.stringify(newCart))
+      } else {
         await axios.delete(`/api/users/${id}/cart`, {
           params: {productId}
         })
-        dispatch(removeCart(productId))
-      } catch (error) {
-        console.error(error)
       }
+      dispatch(removeCart(productId))
+    } catch (error) {
+      console.error(error)
     }
   }
 }
@@ -96,7 +95,7 @@ const initialState = {
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GOT_USER_CART:
+    case GOT_CART:
       return {...state, cart: action.cart}
     case ADD_TO_CART:
       return {...state, cart: [...state.cart, action.product]}
