@@ -4,25 +4,28 @@ import {connect} from 'react-redux'
 import {logout} from '../store'
 import {Nav, Navbar, NavItem, Glyphicon} from 'react-bootstrap'
 import User from './UserHomePage'
+import {NavLink} from 'react-router-dom'
 
 const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
   <Navbar inverse collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href="/">Fancy Rock Shop</a>
+        <NavLink to="/">Fancy Rock Shop</NavLink>
       </Navbar.Brand>
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav>
-        <NavItem eventKey={1} href="/products">
-          All Products
+        <NavItem eventKey={1}>
+          <NavLink to="/products">All Products</NavLink>
         </NavItem>
       </Nav>
 
       <Nav pullRight>
-        <NavItem eventKey={4} href="/cart">
-          <Glyphicon glyph="shopping-cart" />{' '}
-          <span className="quantity">{totalQuantity}</span>
+        <NavItem eventKey={4}>
+          <NavLink to="/cart">
+            <Glyphicon glyph="shopping-cart" />{' '}
+            <span className="quantity">{totalQuantity}</span>
+          </NavLink>
         </NavItem>
       </Nav>
 
@@ -32,18 +35,18 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
           <NavItem eventKey={1} to="/products">
             <User />
           </NavItem>
-          <NavItem onClick={handleClick} eventKey={2} href="#">
-            Logout
+          <NavItem onClick={handleClick} eventKey={2}>
+            <NavLink to="#">Logout</NavLink>
           </NavItem>
         </Nav>
       ) : (
         <Nav pullRight>
           {/* The navbar will show these links before you log in */}
-          <NavItem eventKey={1} href="/login">
-            Login
+          <NavItem eventKey={1}>
+            <NavLink to="/login">Login</NavLink>
           </NavItem>
-          <NavItem eventKey={2} href="/signup">
-            Sign Up
+          <NavItem eventKey={2}>
+            <NavLink to="/signup">Sign Up</NavLink>
           </NavItem>
         </Nav>
       )}

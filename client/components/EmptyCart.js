@@ -1,5 +1,6 @@
 import React from 'react'
 import {Button, Panel} from 'react-bootstrap'
+import {NavLink} from 'react-router-dom'
 
 const EmptyCart = () => {
   return (
@@ -20,14 +21,11 @@ const EmptyCart = () => {
               src="https://images.unsplash.com/photo-1516355161757-eed94aecaeab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1234&q=80"
               alt=""
             />
-            <Button
-              className="pull-right"
-              type="button"
-              bsStyle="info"
-              href="/products"
-            >
-              Back to All Product
-            </Button>
+            <NavLink to="/products">
+              <Button className="pull-right" type="button" bsStyle="info">
+                Back to All Product
+              </Button>
+            </NavLink>
           </Panel.Body>
         </Panel>
       </div>
