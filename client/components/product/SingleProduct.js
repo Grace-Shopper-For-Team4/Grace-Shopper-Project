@@ -8,7 +8,6 @@ const SingleProduct = props => {
   const id = props.match.params.id
   const addProductToCart = props.addProductToCart
   const product = props.products.filter(item => item.id == id)[0]
-  console.log(props)
   return product ? (
     <Grid>
       <Row>
