@@ -2,11 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Grid, Row, Col, Button} from 'react-bootstrap'
 import ErrorPage from '../errorPage'
+import {addProductToCart} from '../../store/reducer/cart'
 
 const SingleProduct = props => {
   const id = props.match.params.id
+  const addProductToCart = props.addProductToCart
   const product = props.products.filter(item => item.id == id)[0]
-
   return product ? (
     <Grid>
       <Row>
@@ -32,7 +33,12 @@ const SingleProduct = props => {
           <Button type="button" bsStyle="info" href="/products">
             Back to All Product
           </Button>
-          <Button className="pull-right" type="button" bsStyle="primary">
+          <Button
+            className="pull-right"
+            type="button"
+            bsStyle="primary"
+            onClick={() => addProductToCart(product, props.userId || 0)}
+          >
             Add To Cart
           </Button>
         </Col>
@@ -44,7 +50,13 @@ const SingleProduct = props => {
 }
 
 const mapStateToProps = state => ({
-  products: state.productsReducer.products
+  products: state.productsReducer.products,
+  userId: state.user.id
 })
 
-export default connect(mapStateToProps)(SingleProduct)
+const mapDispatchToProps = dispatch => ({
+  addProductToCart: (product, userId) =>
+    dispatch(addProductToCart(product, userId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)

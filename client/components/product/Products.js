@@ -2,9 +2,10 @@ import React from 'react'
 import {Grid, Row, Col, Button} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
+import {addProductToCart} from '../../store'
 
 const Products = props => {
-  const products = props.products
+  const {products, addProductToCart} = props
 
   return (
     <Grid>
@@ -28,7 +29,11 @@ const Products = props => {
                 </NavLink>
                 <p>Quantity: {product.stockQuantity}</p>
                 <p>Unit Price: ${product.price}</p>
-                <Button type="button" bsStyle="success">
+                <Button
+                  type="button"
+                  bsStyle="success"
+                  onClick={() => addProductToCart(product, props.userId || 0)}
+                >
                   Add To Cart
                 </Button>
               </Col>
@@ -41,7 +46,13 @@ const Products = props => {
 }
 
 const mapStateToProps = state => ({
-  products: state.productsReducer.products
+  products: state.productsReducer.products,
+  userId: state.user.id
 })
 
-export default connect(mapStateToProps, null)(Products)
+const mapDispatchToProps = dispatch => ({
+  addProductToCart: (product, userId) =>
+    dispatch(addProductToCart(product, userId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products)

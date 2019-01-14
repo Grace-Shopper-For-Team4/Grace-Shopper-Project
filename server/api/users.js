@@ -64,7 +64,7 @@ router.post('/:id/cart', async (req, res, next) => {
 router.delete('/:id/cart', async (req, res, next) => {
   try {
     if (req.user && req.user.dataValues.id === Number(req.params.id)) {
-      const {productId} = req.body
+      const {productId} = req.query
       const order = await Order.findOne({
         where: {
           userId: req.params.id,
