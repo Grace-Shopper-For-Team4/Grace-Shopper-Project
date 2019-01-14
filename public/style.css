@@ -52,6 +52,9 @@ form div {
 .container {
   width: auto;
 }
+div.row {
+  margin-top: 10px;
+}
 
 /*error page*/
 
@@ -86,4 +89,13 @@ form div {
   margin-left: 1em;
   color: red;
   font-weight: bold;
+}
+
+.navbar-inverse {
+  margin-bottom: 0;
+}
+.item img {
+  object-fit: cover;
+  height: 920px !important;
+  width: 100%;
 }

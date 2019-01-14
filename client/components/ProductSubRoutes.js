@@ -24,21 +24,6 @@ class ProductsRoutes extends Component {
             else return <ErrorPage />
           }}
         />
-        <Route
-          path="/products?type=igneos"
-          // render={props => {
-          //   console.log(props)
-          //   console.log(products)
-          //   const type = props.match.params.type
-          //   const exist = products.filter(product => product.type === type)
-          //     .length
-          //   if (exist) {
-          //     return <Products {...props} />
-          //   } else {
-          //     return <ErrorPage />
-          //   }
-          // }}
-        />
       </Switch>
     ) : (
       <ProgressBar active now={60} />

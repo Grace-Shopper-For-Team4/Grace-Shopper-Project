@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Grid, Row, Col, Button} from 'react-bootstrap'
 import ErrorPage from './ErrorPage'
 import {addProductToCart} from '../store/reducer/cart'
+import {NavLink} from 'react-router-dom'
 
 const SingleProduct = props => {
   const id = props.match.params.id
@@ -30,9 +31,11 @@ const SingleProduct = props => {
       </Row>
       <Row>
         <Col md={6} className="pull-right">
-          <Button type="button" bsStyle="info" href="/products">
-            Back to All Product
-          </Button>
+          <NavLink to="/products">
+            <Button type="button" bsStyle="info">
+              Back to All Product
+            </Button>
+          </NavLink>
           <Button
             className="pull-right"
             type="button"
