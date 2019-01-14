@@ -6,6 +6,8 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 //action creator export const all
 export const gotCart = cart => ({type: GOT_CART, cart})
+export const addCart = product => ({type: ADD_TO_CART, product})
+export const removeCart = productId => ({type: REMOVE_FROM_CART, productId})
 
 // thunk creator
 export const fetchCart = id => {
@@ -33,7 +35,6 @@ export const fetchCart = id => {
     }
   }
 }
-export const addCart = product => ({type: ADD_TO_CART, product})
 
 export const addProductToCart = (product, id) => {
   const productId = product.id
@@ -65,8 +66,6 @@ export const addProductToCart = (product, id) => {
     }
   }
 }
-
-export const removeCart = productId => ({type: REMOVE_FROM_CART, productId})
 
 export const removeProductFromCart = (productId, id) => {
   return async dispatch => {

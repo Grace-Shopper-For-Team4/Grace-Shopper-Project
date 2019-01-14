@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {logout} from '../store'
 import {Nav, Navbar, NavItem, Glyphicon} from 'react-bootstrap'
-import User from './user-home'
+import User from './UserHomePage'
 
 const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
   <Navbar inverse collapseOnSelect>
@@ -17,18 +17,6 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
         <NavItem eventKey={1} href="/products">
           All Products
         </NavItem>
-        {/* <NavItem eventKey={2} href="/products?type=igneos">
-          igneos
-        </NavItem>
-        <NavItem eventKey={3} href="/products/metamorphasis">
-          metamorphasis
-        </NavItem>
-        <NavItem eventKey={4} href="/products/sedimentary">
-          sedimentary
-        </NavItem>
-        <NavItem eventKey={5} href="/products/rock">
-          rock
-        </NavItem> */}
       </Nav>
 
       <Nav pullRight>
@@ -63,9 +51,6 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
   </Navbar>
 )
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
