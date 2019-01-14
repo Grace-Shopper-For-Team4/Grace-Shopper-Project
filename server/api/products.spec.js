@@ -38,7 +38,7 @@ describe('Product routes', () => {
         name: 'Alligators',
         description: 'are not rocks',
         stockQuantity: 40,
-        price: 800
+        price: 801
       })
     })
 
