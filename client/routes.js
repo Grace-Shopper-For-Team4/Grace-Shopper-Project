@@ -8,7 +8,8 @@ import {
   UserHome,
   AllProducts,
   CartView,
-  ErrorPage
+  ErrorPage,
+  HomePage
 } from './components'
 import {me, getProductsFromServer, fetchCart} from './store'
 
@@ -43,7 +44,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Route path="/" component={HomePage} />
       </Switch>
     )
   }

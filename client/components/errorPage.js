@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import {Grid, Row, Col, ProgressBar, Button} from 'react-bootstrap'
 
 const errorPage = () => {
@@ -18,9 +18,11 @@ const errorPage = () => {
         </Col>
       </Row>
       <Row id="errorButton">
-        <Button bsSize="large" type="button" bsStyle="info" href="/products">
-          Back to AllProducts!
-        </Button>
+        <NavLink to="/products">
+          <Button type="button" bsStyle="info">
+            Back to All Product
+          </Button>
+        </NavLink>
       </Row>
     </Grid>
   )
