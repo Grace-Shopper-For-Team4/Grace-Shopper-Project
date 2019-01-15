@@ -34,7 +34,6 @@ export const fetchCart = id => {
       } else {
         const response = await axios.get(`/api/users/${id}/cart`)
         newCart = response.data
-        console.log(newCart)
       }
       let total = newCart.reduce(
         (sum, product) => sum + product.price * product.quantity,

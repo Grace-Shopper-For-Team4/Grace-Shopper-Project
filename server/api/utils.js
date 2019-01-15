@@ -196,7 +196,14 @@ module.exports = {
           purchaseDate: new Date()
         })
         await stockProduct.update({stockQuantity: newQuantity})
-        await OrderProduct.create(cartProduct)
+        const {productId, historicalPrice, quantity} = cartProduct
+        const newOrderProductInstance = await OrderProduct.findOrCreate({
+          where: {
+            productId,
+            orderId
+          }
+        })
+        await newOrderProductInstance[0].update({quantity, historicalPrice})
       })
       return {invalidRequest: false}
     }
