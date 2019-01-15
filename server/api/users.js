@@ -37,7 +37,7 @@ router.post('/:userId/cart/products/:productId', async (req, res, next) => {
       )
       if (validationResult.invalidResult) {
         res.status(400).json(validationResult)
-      } else res.status(201).send('Cart successfully checked out!')
+      } else res.status(201).send(validationResult)
     } else {
       res.sendStatus(401)
     }

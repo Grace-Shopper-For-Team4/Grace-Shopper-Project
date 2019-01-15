@@ -32,13 +32,9 @@ export const fetchCart = id => {
           newCart = []
         }
       } else {
-        const cart = await axios.get(`/api/users/${id}/cart`)
-        newCart = cart.data.map(cartProduct => {
-          return {
-            ...cartProduct.product,
-            quantity: cartProduct.quantity
-          }
-        })
+        const response = await axios.get(`/api/users/${id}/cart`)
+        newCart = response.data
+        console.log(newCart)
       }
       let total = newCart.reduce(
         (sum, product) => sum + product.price * product.quantity,
@@ -72,7 +68,7 @@ export const addProductToCart = (product, id, quantity) => {
           product = null
         }
       } else {
-        await axios.post(`/api/users/${id}/cart`, {
+        await axios.post(`/api/users/${id}/cart/products/${product.id}`, {
           productId,
           id
         })
@@ -92,9 +88,7 @@ export const removeProductFromCart = (productId, id) => {
         const newCart = cart.filter(item => item.id !== productId)
         window.localStorage.setItem('cart', JSON.stringify(newCart))
       } else {
-        await axios.delete(`/api/users/${id}/cart`, {
-          params: {productId}
-        })
+        await axios.delete(`/api/users/${id}/cart/products/${productId}`)
       }
       dispatch(removeCart(productId))
       history.push('/cart')
@@ -104,11 +98,11 @@ export const removeProductFromCart = (productId, id) => {
   }
 }
 
-export const updateCart = (quantity, product, id) => {
+export const updateCart = (quantity, product, userId) => {
   product.quantity = Number(quantity)
   return async dispatch => {
     try {
-      if (!id) {
+      if (!userId) {
         let cart = JSON.parse(window.localStorage.getItem('cart'))
         const newCart = cart.filter(item => item.id !== product.id)
         window.localStorage.setItem(
@@ -116,7 +110,7 @@ export const updateCart = (quantity, product, id) => {
           JSON.stringify([...newCart, product])
         )
       } else {
-        await axios.put(`/api/users/${product.id}/cart`, {
+        await axios.put(`/api/users/${userId}/cart/products/${product.id}`, {
           quantity
         })
       }
