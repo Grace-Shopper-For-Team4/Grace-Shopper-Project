@@ -9,11 +9,6 @@ const Product = require('../db/models/product')
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      where: {
-        stockQuantity: {
-          [Op.gt]: 0
-        }
-      },
       order: [['id', 'ASC']]
     })
     res.json(products)

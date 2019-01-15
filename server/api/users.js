@@ -25,7 +25,6 @@ router.get('/:userId/cart', async (req, res, next) => {
 router.post('/:userId/cart/products/:productId', async (req, res, next) => {
   try {
     if (req.user) {
-      console.log(req.body)
       const productId = req.params.productId
       const {quantity} = req.body
       const response = await Order.findOrCreate({
@@ -45,8 +44,6 @@ router.post('/:userId/cart/products/:productId', async (req, res, next) => {
       // quantity does not exceed current available stock
       if (!productExistsInCart && product) {
         const {stockQuantity} = product
-        console.log(quantity, stockQuantity)
-        console.log(quantity <= stockQuantity)
         if (quantity <= stockQuantity) {
           const orderProductInstance = await OrderProduct.create({
             productId,
@@ -168,7 +165,6 @@ router.put('/:id/cart', async (req, res, next) => {
       // make sure cart is not empty!
       if (cartProductInstances.length) {
         const requests = cartProductInstances.map(cartProductInstance => {
-          console.log(cartProductInstance)
           const stockProduct = cartProductInstance.product
           const requestedQuantity = cartProductInstance.quantity
           const {stockQuantity} = stockProduct.dataValues
@@ -232,28 +228,6 @@ router.put('/:id/cart', async (req, res, next) => {
           })
           res.status(201).send('Cart successfully checked out!')
         }
-
-        // console.log(requestResults)
-
-        // await cartProductInstances.forEach(async cartProduct => {
-        //   const stockProduct = cartProduct.product
-        //   const newStockQuantity =
-        //     stockProduct.stockQuantity - cartProduct.quantity
-        //   console.log(newStockQuantity)
-        //   if (newStockQuantity >= 0) {
-        //     await cartProduct.update({
-        //       historicalPrice: stockProduct.price
-        //     })
-        //     await stockProduct.update({
-        //       stockQuantity: newStockQuantity
-        //     })
-        //   }
-        // })
-        // console.log(orderInstance)
-        // await orderInstance.update({
-        //   purchaseDate: new Date(),
-        //   isBought: true
-        // })
       } else {
         res
           .status(400)
