@@ -9,6 +9,7 @@ async function seed() {
 
   const products = await Promise.all([
     Product.create({
+      id: 1,
       name: 'Obsidian',
       description:
         'Obsidian is a naturally occurring volcanic glass formed as an extrusive igneous rock. Obsidian is produced when felsic lava extruded from a volcano cools rapidly with minimal crystal growth.',
@@ -18,6 +19,7 @@ async function seed() {
       type: 'Igneous'
     }),
     Product.create({
+      id: 2,
       name: 'Granite',
       description:
         'Granite is a common type of felsic intrusive igneous rock that is granular and phaneritic in texture. Granites can be predominantly white, pink, or gray in color, depending on their mineralogy.',
@@ -28,6 +30,7 @@ async function seed() {
       type: 'Metamorphic'
     }),
     Product.create({
+      id: 3,
       name: 'Quartz',
       description:
         'Quartz is a mineral composed of silicon and oxygen atoms in a continuous framework of SiO₄ silicon–oxygen tetrahedra, with each oxygen being shared between two tetrahedra, giving an overall chemical formula of SiO₂. Quartz is the second most abundant mineral in Earths continental crust, behind feldspar.',
@@ -38,6 +41,7 @@ async function seed() {
       type: 'Sedimentary'
     }),
     Product.create({
+      id: 4,
       name: 'Basalt',
       description:
         'a dark, fine-grained volcanic rock that sometimes displays a columnar structure. It is typically composed largely of plagioclase with pyroxene and olivine.',
@@ -47,6 +51,7 @@ async function seed() {
       type: 'Igneous'
     }),
     Product.create({
+      id: 5,
       name: 'Limestone',
       description:
         'Limestone is a sedimentary rock, composed mainly of skeletal fragments of marine organisms such as coral, forams and molluscs',
@@ -56,6 +61,7 @@ async function seed() {
       type: 'Sedimentary'
     }),
     Product.create({
+      id: 6,
       name: 'Shale',
       description:
         'Shale is a fine-grained, clastic sedimentary rock composed of mud that is a mix of flakes of clay minerals and tiny fragments of other minerals, especially quartz and calcite. Shale is characterized by breaks along thin laminae or parallel layering or bedding less than one centimeter in thickness, called fissility',
@@ -66,6 +72,7 @@ async function seed() {
       type: 'Sedimentary'
     }),
     Product.create({
+      id: 7,
       name: 'Pile of Ugly Rocks',
       description:
         'We have the typical rocks coming up on our farm, plus old pieces of cement foundation from a previous barn. They are not attractive, even when the dirt is off of them. What should we do with them? Farm work will inevitably produce more of them so whatever we do has to be able to continue to (slowly) grow over the next few decades.',
@@ -75,6 +82,7 @@ async function seed() {
       type: 'Igneous'
     }),
     Product.create({
+      id: 8,
       name: 'A Piece of Stonehenge',
       description:
         'Selling these pieces of history is more graverobbing than actuale-commerce, so naturally this is an expensive product.',
@@ -85,6 +93,7 @@ async function seed() {
       type: 'Metamorphic'
     }),
     Product.create({
+      id: 9,
       name: 'Dwayne Johnson',
       description: 'More dangerous than granite.',
       stockQuantity: 20,
@@ -96,16 +105,12 @@ async function seed() {
   console.log(`seeded ${products.length} products successfully`)
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({id: 1, email: 'cody@email.com', password: '123'})
   ])
 
   console.log(`seeded ${users.length} users`)
 
-  const cart = await Promise.all([
-    Order.create({userId: 1}),
-    Order.create({userId: 2})
-  ])
+  const cart = await Promise.all([Order.create({userId: 1})])
 
   console.log(`seeded ${cart.length} cartProducts`)
 
