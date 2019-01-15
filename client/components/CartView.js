@@ -6,7 +6,8 @@ import {
   fetchCart,
   removeProductFromCart,
   addProductToCart,
-  commitCheckout
+  commitCheckout,
+  getProductsFromServer
 } from '../store'
 import EmptyCart from './EmptyCart'
 import QuantityForm from './QuantityForm'
@@ -58,7 +59,7 @@ const CartView = props => {
         </Col>
 
         <Col md={6}>
-          <NavLink to="/products">
+          <NavLink to="/">
             <Button
               className="pull-right"
               type="button"
@@ -89,7 +90,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(removeProductFromCart(productId, userId)),
   addProductToCart: (productId, userId) =>
     dispatch(addProductToCart(productId, userId)),
-  commitCheckout: userId => dispatch(commitCheckout(userId))
+  commitCheckout: userId => dispatch(commitCheckout(userId)),
+  getProductsFromServer: () => dispatch(getProductsFromServer())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartView)

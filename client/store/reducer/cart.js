@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import axios from 'axios'
 import history from '../../history'
+import {getProductsFromServer} from './products'
 
 // action type
 const GOT_CART = 'GOT_CART'
@@ -127,9 +128,18 @@ export const updateCart = (quantity, product, userId) => {
 export const commitCheckout = userId => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/users/${userId}/cart/`)
+      if (!userId) {
+        let cart = JSON.parse(window.localStorage.getItem('cart'))
+        const {data} = await axios.put(`/api/users/0/cart/`, {cart: cart})
+        window.localStorage.setItem('cart', JSON.stringify([]))
+        dispatch(gotCheckout(data))
+      } else {
+        const {data} = await axios.put(`/api/users/${userId}/cart/`)
 
-      dispatch(gotCheckout(data))
+        dispatch(gotCheckout(data))
+      }
+
+      dispatch(getProductsFromServer())
     } catch (error) {
       console.error(error)
     }
