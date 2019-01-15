@@ -69,6 +69,7 @@ export const addProductToCart = (product, id, quantity) => {
       } else {
         await axios.post(`/api/users/${id}/cart/products/${product.id}`, {
           productId,
+          quantity,
           id
         })
       }

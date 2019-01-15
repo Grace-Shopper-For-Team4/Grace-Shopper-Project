@@ -28,7 +28,7 @@ router.post('/:userId/cart/products/:productId', async (req, res, next) => {
   try {
     if (req.user) {
       const productId = req.params.productId
-      const requestedQuantity = req.body.quantity
+      const requestedQuantity = req.body.quantity || 1
       // validation is handled in utils
       const validationResult = await utils.createValidCartProductInstance(
         productId,
