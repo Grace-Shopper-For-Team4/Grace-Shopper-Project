@@ -81,7 +81,7 @@ async function seed() {
       stockQuantity: 12,
       imageUrl:
         'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
-      price: 200000000000,
+      price: 350000000,
       type: 'Metamorphic'
     }),
     Product.create({
