@@ -9,9 +9,11 @@ module.exports = router
 router.get('/:userId/cart', async (req, res, next) => {
   try {
     if (req.user) {
-      const userCart = await utils.findOrCreateCart(req.user.dataValues.id)
-      const userCartProducts = await utils.findAndFormatCartProducts(userCart)
-      res.json(userCartProducts)
+      const cartInstance = await utils.findOrCreateCartInstance(
+        req.user.dataValues.id
+      )
+      const cartProducts = await utils.findAndFormatCartProducts(cartInstance)
+      res.json(cartProducts)
     } else {
       res.sendStatus(401)
     }
@@ -26,46 +28,16 @@ router.post('/:userId/cart/products/:productId', async (req, res, next) => {
   try {
     if (req.user) {
       const productId = req.params.productId
-      const {quantity} = req.body
-      const response = await Order.findOrCreate({
-        where: {
-          userId: req.user.dataValues.id,
-          isBought: false
-        }
-      })
-      const orderId = response[0].dataValues.id
-      const product = await Product.findById(productId)
-      const productExistsInCart = await OrderProduct.findOne({
-        where: {productId, orderId}
-        // include: [{model: Product}]
-      })
-      // only allow user to add item to cart if it doesn't already exist in cart,
-      // jf productId is valid id (i.e. it exists in products table), and
-      // quantity does not exceed current available stock
-      if (!productExistsInCart && product) {
-        const {stockQuantity} = product
-        if (quantity <= stockQuantity) {
-          const orderProductInstance = await OrderProduct.create({
-            productId,
-            quantity,
-            orderId
-          })
-          res.status(201).json(orderProductInstance)
-        } else
-          res
-            .status(400)
-            .send(
-              `Validation error' quantity unavailable as ${
-                stockQuantity ? 'only ' + stockQuantity : 'none'
-              } left for requested product (productId: ${productId})`
-            )
-      } else {
-        res
-          .status(400)
-          .send(
-            'Validation Error: Product either already exists in cart or does not have a valid productId.'
-          )
-      }
+      const requestedQuantity = req.body.quantity
+      // validation is handled in utils
+      const validationResult = await utils.createValidCartProductInstance(
+        productId,
+        requestedQuantity,
+        req.user.dataValues.id
+      )
+      if (validationResult.invalidResult) {
+        res.status(400).json(validationResult)
+      } else res.status(201).json(validationResult)
     } else {
       res.sendStatus(401)
     }
@@ -79,25 +51,41 @@ router.post('/:userId/cart/products/:productId', async (req, res, next) => {
 router.delete('/:userId/cart/products/:productId', async (req, res, next) => {
   try {
     if (req.user) {
-      const response = await Order.findOrCreate({
-        where: {
-          userId: req.user.dataValues.id,
-          isBought: false
-        }
-      })
-      const orderId = response[0].dataValues.id
+      const productId = req.params.productId
+      const userId = req.user.dataValues.id
+      // handle validation in utils
+      const validationResult = await utils.removeValidCartProduct(
+        productId,
+        userId
+      )
+      if (validationResult.invalidRequest) {
+        res.status(404).json(validationResult)
+      } else res.status(204).send('Successfully Deleted')
+    } else {
+      res.sendStatus(401)
+    }
+  } catch (error) {
+    next(error)
+  }
+})
 
-      const orderProduct = await OrderProduct.findOne({
-        where: {
-          productId: req.params.productId,
-          orderId: orderId
-        }
-      })
+// update item in user's cart
 
-      if (orderProduct) {
-        await orderProduct.destroy()
-        res.status(204).send('Successfully Deleted')
-      } else res.sendStatus(404)
+router.put('/:userId/cart/products/:productId', async (req, res, next) => {
+  try {
+    if (req.user) {
+      const productId = req.params.productId
+      const requestedQuantity = req.body.quantity
+      const userId = req.user.dataValues.id
+      // handle validation in utils
+      const validationResult = await utils.updateValidCartProduct(
+        productId,
+        requestedQuantity,
+        userId
+      )
+      if (validationResult.invalidRequest) {
+        res.status(404).json(validationResult)
+      } else res.status(200).json(validationResult)
     } else {
       res.sendStatus(401)
     }
