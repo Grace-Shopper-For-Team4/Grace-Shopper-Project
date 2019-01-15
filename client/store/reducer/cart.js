@@ -4,10 +4,12 @@ import axios from 'axios'
 const GOT_CART = 'GOT_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST'
 //action creator export const all
 export const gotCart = cart => ({type: GOT_CART, cart})
 export const addCart = product => ({type: ADD_TO_CART, product})
 export const removeCart = productId => ({type: REMOVE_FROM_CART, productId})
+export const gotCheckout = userCart => ({type: CHECKOUT_REQUEST, userCart})
 
 // thunk creator
 export const fetchCart = id => {
@@ -86,6 +88,18 @@ export const removeProductFromCart = (productId, id) => {
   }
 }
 
+export const commitCheckout = userId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`/api/users/${userId}/cart/`)
+
+      dispatch(gotCheckout(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   cart: []
 }
@@ -101,6 +115,8 @@ const cartReducer = (state = initialState, action) => {
     case REMOVE_FROM_CART:
       const newCart = state.cart.filter(item => item.id !== action.productId)
       return {...state, cart: newCart}
+    case CHECKOUT_REQUEST:
+      return {cart: []}
     default:
       return state
   }

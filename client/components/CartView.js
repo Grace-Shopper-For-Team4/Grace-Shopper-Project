@@ -2,7 +2,12 @@ import React from 'react'
 import {Grid, Row, Col, Button, Label} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import {fetchCart, removeProductFromCart, addProductToCart} from '../store'
+import {
+  fetchCart,
+  removeProductFromCart,
+  addProductToCart,
+  commitCheckout
+} from '../store'
 import EmptyCart from './EmptyCart'
 import QuantityForm from './QuantityForm'
 
@@ -50,14 +55,17 @@ const CartView = props => {
           </h2>
         </Col>
         <Col md={6}>
-          <Button
-            className="pull-right"
-            type="button"
-            bsStyle="success"
-            bsSize="large"
-          >
-            Checkout!
-          </Button>
+          <NavLink to="/products">
+            <Button
+              className="pull-right"
+              type="button"
+              bsStyle="success"
+              bsSize="large"
+              onClick={() => props.commitCheckout(props.cart.userId || 0)}
+            >
+              Checkout!
+            </Button>
+          </NavLink>
         </Col>
       </Row>
     </Grid>
@@ -76,7 +84,8 @@ const mapDispatchToProps = dispatch => ({
   removeProductFromCart: (productId, userId) =>
     dispatch(removeProductFromCart(productId, userId)),
   addProductToCart: (productId, userId) =>
-    dispatch(addProductToCart(productId, userId))
+    dispatch(addProductToCart(productId, userId)),
+  commitCheckout: userId => dispatch(commitCheckout(userId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartView)
