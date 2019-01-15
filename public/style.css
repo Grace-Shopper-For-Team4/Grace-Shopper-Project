@@ -111,5 +111,8 @@ div.row {
 #removeButton {
   width: 100%;
   margin-top: 5px;
-  padding-left: 52%;
+  padding-left: 50%;
+}
+.dropdown {
+  padding-left: 10px;
 }

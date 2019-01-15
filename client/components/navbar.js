@@ -15,23 +15,28 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav>
-        <NavItem eventKey={1} href="/products">
-          All Products
+        <NavItem eventKey={1}>
+          <NavLink to="/products">All Products</NavLink>
         </NavItem>
       </Nav>
 
       <Nav pullRight>
-        <NavItem eventKey={4} href="/cart">
-          <Glyphicon glyph="shopping-cart" />{' '}
-          <span className="quantity">{totalQuantity}</span>
+        <NavItem eventKey={4}>
+          <NavLink to="/cart">
+            {' '}
+            <Glyphicon glyph="shopping-cart" />{' '}
+            <span className="quantity">{totalQuantity}</span>
+          </NavLink>
         </NavItem>
       </Nav>
 
       {isLoggedIn ? (
         <Nav pullRight>
           {/* The navbar will show these links after you log in */}
-          <NavItem eventKey={1} href="/products">
-            <User />
+          <NavItem eventKey={1}>
+            <NavLink to="/products">
+              <User />
+            </NavLink>
           </NavItem>
           <NavItem onClick={handleClick} eventKey={2}>
             Logout
@@ -40,11 +45,11 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
       ) : (
         <Nav pullRight>
           {/* The navbar will show these links before you log in */}
-          <NavItem eventKey={1} href="/login">
-            Login
+          <NavItem eventKey={1}>
+            <NavLink to="/login">Login</NavLink>
           </NavItem>
-          <NavItem eventKey={2} href="/signup">
-            Sign Up
+          <NavItem eventKey={2}>
+            <NavLink to="/signup">Sign Up</NavLink>
           </NavItem>
         </Nav>
       )}

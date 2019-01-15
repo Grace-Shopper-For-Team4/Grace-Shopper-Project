@@ -1,38 +1,33 @@
 import React from 'react'
 import {SplitButton, Button, MenuItem, Row, Col} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {updateTotalPrice} from '../store/'
+import {updateCart} from '../store'
 
 class QuantityForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentQuantity: 1,
-      productId: this.props.product.id,
-      updateQuantity: 0,
-      productTotalPrice: 0
+      updateQuantity: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleChange = event => {
-    console.log(event)
     this.setState({
-      updateQuantity: event,
-      totalprice: this.props.product.price * event
+      updateQuantity: event
     })
   }
   handleSubmit = event => {
     event.preventDefault()
-    this.props.updateTotalPrice(this.state.totalprice)
-    console.log(this.state.totalprice, this.props.product)
+    const {userId, product, updateCart} = this.props
+    console.log(userId, product, this.state.updateQuantity)
+    updateCart(this.state.updateQuantity, product, userId)
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="quantityForm">
-        <p id="currentQuant">Current Quantity:{this.state.currentQuantity}</p>
+        <p id="currentQuant">Current Quantity:{this.props.product.quantity}</p>
         <Row>
           <Col md={6} style={{padding: 0}}>
             <SplitButton
@@ -66,12 +61,13 @@ class QuantityForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  totalprice: state.cartReducer.cart.totalprice,
+  cart: state.cartReducer.cart,
   userId: state.user.id
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateTotalPrice: productTotal => dispatch(updateTotalPrice(productTotal))
+  updateCart: (quantity, product, id) =>
+    dispatch(updateCart(quantity, product, id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuantityForm)

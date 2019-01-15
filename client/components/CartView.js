@@ -7,7 +7,6 @@ import EmptyCart from './EmptyCart'
 import QuantityForm from './QuantityForm'
 
 const CartView = props => {
-  let total = props.cart.reduce((sum, cur) => sum + cur.price * 1, 0)
   return props.cart.length ? (
     <Grid>
       <Row>
@@ -48,9 +47,7 @@ const CartView = props => {
       <Row>
         <Col md={6}>
           <h2>
-            <Label bsStyle="warning">
-              Current Total: ${props.cart.totalPrice}
-            </Label>
+            <Label bsStyle="warning">Current Total: ${props.totalPrice}</Label>
           </h2>
         </Col>
         <Col md={6}>
@@ -72,6 +69,7 @@ const CartView = props => {
 
 const mapStateToProps = state => ({
   cart: state.cartReducer.cart,
+  totalPrice: state.cartReducer.totalPrice,
   userId: state.user.id
 })
 
