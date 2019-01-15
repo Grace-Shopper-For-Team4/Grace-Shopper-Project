@@ -1,23 +1,17 @@
 const router = require('express').Router()
-const {User, Order, OrderProduct, Product} = require('../db/models')
+const {Order, OrderProduct, Product} = require('../db/models')
+const utils = require('./utils')
+
 module.exports = router
 
 // get all items in cart
 
-router.get('/:id/cart', async (req, res, next) => {
+router.get('/:userId/cart', async (req, res, next) => {
   try {
-    if (req.user && req.user.dataValues.id === Number(req.params.id)) {
-      const response = await Order.findOrCreate({
-        where: {
-          userId: req.params.id,
-          isBought: false
-        }
-      })
-      const cartProducts = await OrderProduct.findAll({
-        where: {orderId: response[0].dataValues.id},
-        include: [{model: Product}]
-      })
-      res.json(cartProducts)
+    if (req.user) {
+      const userCart = await utils.findOrCreateCart(req.user.dataValues.id)
+      const userCartProducts = await utils.findAndFormatCartProducts(userCart)
+      res.json(userCartProducts)
     } else {
       res.sendStatus(401)
     }
@@ -28,30 +22,52 @@ router.get('/:id/cart', async (req, res, next) => {
 
 // add item to user's cart
 
-router.post('/:id/cart', async (req, res, next) => {
+router.post('/:userId/cart/products/:productId', async (req, res, next) => {
   try {
-    if (req.user && req.user.dataValues.id === Number(req.params.id)) {
-      const {productId, quantity} = req.body
+    if (req.user) {
+      console.log(req.body)
+      const productId = req.params.productId
+      const {quantity} = req.body
       const response = await Order.findOrCreate({
         where: {
-          userId: req.params.id,
+          userId: req.user.dataValues.id,
           isBought: false
         }
       })
       const orderId = response[0].dataValues.id
-      const productExistsInCart = await OrderProduct.find({
+      const product = await Product.findById(productId)
+      const productExistsInCart = await OrderProduct.findOne({
         where: {productId, orderId}
+        // include: [{model: Product}]
       })
-      // only allow user to add item to cart if it doesn't exist in cart already
-      if (!productExistsInCart) {
-        const product = await OrderProduct.create({
-          productId,
-          quantity,
-          orderId
-        })
-        res.status(201).json(product)
+      // only allow user to add item to cart if it doesn't already exist in cart,
+      // jf productId is valid id (i.e. it exists in products table), and
+      // quantity does not exceed current available stock
+      if (!productExistsInCart && product) {
+        const {stockQuantity} = product
+        console.log(quantity, stockQuantity)
+        console.log(quantity <= stockQuantity)
+        if (quantity <= stockQuantity) {
+          const orderProductInstance = await OrderProduct.create({
+            productId,
+            quantity,
+            orderId
+          })
+          res.status(201).json(orderProductInstance)
+        } else
+          res
+            .status(400)
+            .send(
+              `Validation error' quantity unavailable as ${
+                stockQuantity ? 'only ' + stockQuantity : 'none'
+              } left for requested product (productId: ${productId})`
+            )
       } else {
-        res.status(409).send('product exists in cart already')
+        res
+          .status(400)
+          .send(
+            'Validation Error: Product either already exists in cart or does not have a valid productId.'
+          )
       }
     } else {
       res.sendStatus(401)
@@ -63,21 +79,20 @@ router.post('/:id/cart', async (req, res, next) => {
 
 // remove item from user's cart
 
-router.delete('/:id/cart', async (req, res, next) => {
+router.delete('/:userId/cart/products/:productId', async (req, res, next) => {
   try {
-    if (req.user && req.user.dataValues.id === Number(req.params.id)) {
-      const {productId} = req.body
-      const order = await Order.findOne({
+    if (req.user) {
+      const response = await Order.findOrCreate({
         where: {
-          userId: req.params.id,
+          userId: req.user.dataValues.id,
           isBought: false
         }
       })
-      const orderId = order.dataValues.id
+      const orderId = response[0].dataValues.id
 
       const orderProduct = await OrderProduct.findOne({
         where: {
-          productId: productId,
+          productId: req.params.productId,
           orderId: orderId
         }
       })
@@ -110,70 +125,142 @@ router.put('/:id/cart', async (req, res, next) => {
           isBought: true
         })
         const productsAndQuant = await cart.map(async product => {
-          const {price} = await Product.findOne({
-            where: {
-              id: product.id
-            },
-            attributes: ['price']
-          })
-          return {
-            productId: product.id,
-            orderId: orderInstance.id,
-            quantity: product.quantity,
-            historicalPrice: price
+          const stockProduct = await Product.findById(product.id)
+          const newStockQuantity = stockProduct.stockQuantity - product.quantity
+          if (newStockQuantity >= 0) {
+            await stockProduct.update({
+              stockQuantity: newStockQuantity
+            })
+            return {
+              productId: product.id,
+              orderId: orderInstance.id,
+              quantity: product.quantity,
+              historicalPrice: stockProduct.price
+            }
           }
         })
         await OrderProduct.bulkCreate(productsAndQuant)
-        res.status(201).send('cart successfully checked out!')
+        res.status(201).send('Cart successfully checked out!')
       } else {
         res
-          .status(409)
-          .send('cart is empty! please add some products and try again.')
+          .status(400)
+          .send(
+            'Validation Error: Cart is empty. Add some products and try again.'
+          )
       }
-      // else if user IS logged in and their ID matches the URL params id
-      // (i.e. they are attempting to checkout their own cart), set the
+      // else if user IS logged in, set the
       // historicalPrice on their cart products, set the purchaseDate on their
       // cart order, and flip their cart's isBought' flag to true:
-    } else if (req.user && req.user.dataValues.id === Number(req.params.id)) {
+    } else if (req.user) {
       const response = await Order.findOrCreate({
         where: {
-          userId: req.params.id,
+          userId: req.user.dataValues.id,
           isBought: false
-        }
+        },
+        include: [{model: OrderProduct, include: [{model: Product}]}]
       })
+      const orderInstance = response[0]
       const orderInstanceId = response[0].dataValues.id
-      const cartProductInstances = await OrderProduct.findAll({
-        where: {orderId: orderInstanceId},
+      const cartProductInstances = await orderInstance.getOrderProducts({
         include: [{model: Product}]
       })
+      let hasValidationFailed = false
       // make sure cart is not empty!
       if (cartProductInstances.length) {
-        await cartProductInstances.forEach(async cartProduct => {
-          const {price} = cartProduct.product
-          await cartProduct.update({
-            historicalPrice: price
-          })
+        const requests = cartProductInstances.map(cartProductInstance => {
+          console.log(cartProductInstance)
+          const stockProduct = cartProductInstance.product
+          const requestedQuantity = cartProductInstance.quantity
+          const {stockQuantity} = stockProduct.dataValues
+          return stockProduct
+            .update({
+              stockQuantity: stockQuantity - requestedQuantity
+            })
+            .catch(err => {
+              hasValidationFailed = true
+              console.error(err)
+              return {
+                errorName: err.name,
+                stockProductId: stockProduct.dataValues.id,
+                requestedQuantity,
+                stockQuantity
+              }
+            })
         })
-        await Order.update(
-          {
+
+        const requestResults = await Promise.all(requests)
+        // if any of the quantity requests fail validation, then loop through
+        // the stockProductInstances that have updated and return their quantity
+        // to what it was before
+        if (hasValidationFailed) {
+          await Promise.all(
+            requestResults.reduce((validatedRequests, currProductInstance) => {
+              if (!currProductInstance.errorName) {
+                validatedRequests.push(
+                  currProductInstance
+                    .update({
+                      stockQuantity: currProductInstance.previous(
+                        'stockQuantity'
+                      )
+                    })
+                    .catch(err => console.error(err))
+                )
+              }
+              return validatedRequests
+            }, [])
+          )
+          res
+            .status(400)
+            .send(
+              'Validation Error: Product(s) unavailable in requested quantities. Please review your cart and try to checkout again.'
+            )
+          // otherwise, the quantity changes are all valid and we should update the historical
+          // price of all order items and the order's isBought flag
+        } else {
+          await Promise.all(
+            cartProductInstances.map(cartProductInstance => {
+              const historicalPrice =
+                cartProductInstance.product.dataValues.price
+              return cartProductInstance.update({
+                historicalPrice
+              })
+            })
+          )
+          await orderInstance.update({
             purchaseDate: new Date(),
             isBought: true
-          },
-          {
-            where: {
-              id: orderInstanceId
-            }
-          }
-        )
-        res.status(201).send('cart successfully checked out!')
+          })
+          res.status(201).send('Cart successfully checked out!')
+        }
+
+        // console.log(requestResults)
+
+        // await cartProductInstances.forEach(async cartProduct => {
+        //   const stockProduct = cartProduct.product
+        //   const newStockQuantity =
+        //     stockProduct.stockQuantity - cartProduct.quantity
+        //   console.log(newStockQuantity)
+        //   if (newStockQuantity >= 0) {
+        //     await cartProduct.update({
+        //       historicalPrice: stockProduct.price
+        //     })
+        //     await stockProduct.update({
+        //       stockQuantity: newStockQuantity
+        //     })
+        //   }
+        // })
+        // console.log(orderInstance)
+        // await orderInstance.update({
+        //   purchaseDate: new Date(),
+        //   isBought: true
+        // })
       } else {
         res
-          .status(409)
-          .send('cart is empty! please add some products and try again.')
+          .status(400)
+          .send(
+            'Validation Error: Cart is empty. Add some products and try again.'
+          )
       }
-      // otherwise, if user is logged in and their URL params ID does not
-      // match their own ID (i.e. they are attemtping to checkout another
-      // person's cart), respond with an unauthorized code of 401:
     } else {
       res.sendStatus(401)
     }
