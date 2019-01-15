@@ -1,15 +1,26 @@
+/* eslint-disable no-case-declarations */
 import axios from 'axios'
+import history from '../../history'
 
 // action type
 const GOT_CART = 'GOT_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST'
+const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
 //action creator export const all
-export const gotCart = cart => ({type: GOT_CART, cart})
+export const gotCart = (cart, total) => ({type: GOT_CART, cart, total})
 export const addCart = product => ({type: ADD_TO_CART, product})
 export const removeCart = productId => ({type: REMOVE_FROM_CART, productId})
 export const gotCheckout = userCart => ({type: CHECKOUT_REQUEST, userCart})
+export const updateQuantity = product => ({type: UPDATE_QUANTITY, product})
+
+// help function
+function compare(a, b) {
+  if (a.id < b.id) return -1
+  if (a.id > b.id) return 1
+  return 0
+}
 
 // thunk creator
 export const fetchCart = id => {
@@ -31,15 +42,22 @@ export const fetchCart = id => {
           }
         })
       }
-      dispatch(gotCart(newCart))
+      let total = newCart.reduce(
+        (sum, product) => sum + product.price * product.quantity,
+        0
+      )
+      newCart = newCart.sort(compare)
+      dispatch(gotCart(newCart, total))
     } catch (error) {
       console.error(error)
     }
   }
 }
 
-export const addProductToCart = (product, id) => {
+export const addProductToCart = (product, id, quantity) => {
   const productId = product.id
+  if (!quantity) quantity = 1
+  product = {...product, quantity: quantity}
   return async dispatch => {
     try {
       if (!id) {
@@ -56,13 +74,12 @@ export const addProductToCart = (product, id) => {
           product = null
         }
       } else {
-        const response = await axios.post(`/api/users/${id}/cart`, {
+        await axios.post(`/api/users/${id}/cart`, {
           productId,
           id
         })
-        product = response.data
       }
-      if (product) dispatch(addCart(product))
+      dispatch(addCart(product))
     } catch (error) {
       console.error(error)
     }
@@ -82,6 +99,31 @@ export const removeProductFromCart = (productId, id) => {
         })
       }
       dispatch(removeCart(productId))
+      history.push('/cart')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const updateCart = (quantity, product, id) => {
+  product.quantity = Number(quantity)
+  return async dispatch => {
+    try {
+      if (!id) {
+        let cart = JSON.parse(window.localStorage.getItem('cart'))
+        const newCart = cart.filter(item => item.id !== product.id)
+        window.localStorage.setItem(
+          'cart',
+          JSON.stringify([...newCart, product])
+        )
+      } else {
+        await axios.put(`/api/users/${product.id}/cart`, {
+          quantity
+        })
+      }
+      dispatch(updateQuantity(product))
+      history.push('/cart')
     } catch (error) {
       console.error(error)
     }
@@ -101,7 +143,8 @@ export const commitCheckout = userId => {
 }
 
 const initialState = {
-  cart: []
+  cart: [],
+  totalPrice: 0
 }
 
 //reducer
@@ -109,14 +152,20 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case GOT_CART:
-      return {...state, cart: action.cart}
+      return {...state, cart: action.cart, totalPrice: action.total}
     case ADD_TO_CART:
-      return {...state, cart: [...state.cart, action.product]}
+      return {
+        ...state,
+        cart: [...state.cart, action.product]
+      }
     case REMOVE_FROM_CART:
-      const newCart = state.cart.filter(item => item.id !== action.productId)
+      let newCart = state.cart.filter(item => item.id !== action.productId)
       return {...state, cart: newCart}
     case CHECKOUT_REQUEST:
       return {cart: []}
+    case UPDATE_QUANTITY:
+      newCart = state.cart.filter(item => item.id !== action.product.id)
+      return {...state, cart: [...newCart, action.product]}
     default:
       return state
   }

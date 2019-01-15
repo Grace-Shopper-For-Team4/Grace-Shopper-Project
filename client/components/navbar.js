@@ -23,6 +23,7 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
       <Nav pullRight>
         <NavItem eventKey={4}>
           <NavLink to="/cart">
+            {' '}
             <Glyphicon glyph="shopping-cart" />{' '}
             <span className="quantity">{totalQuantity}</span>
           </NavLink>
@@ -32,11 +33,13 @@ const NavigationBar = ({handleClick, isLoggedIn, totalQuantity}) => (
       {isLoggedIn ? (
         <Nav pullRight>
           {/* The navbar will show these links after you log in */}
-          <NavItem eventKey={1} to="/products">
-            <User />
+          <NavItem eventKey={1}>
+            <NavLink to="/products">
+              <User />
+            </NavLink>
           </NavItem>
           <NavItem onClick={handleClick} eventKey={2}>
-            <NavLink to="#">Logout</NavLink>
+            Logout
           </NavItem>
         </Nav>
       ) : (

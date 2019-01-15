@@ -4,6 +4,7 @@ body {
 
 a {
   text-decoration: none;
+  color: gray;
 }
 
 label {
@@ -96,6 +97,22 @@ div.row {
 }
 .item img {
   object-fit: cover;
-  height: 920px !important;
+  height: 620px !important;
   width: 100%;
+}
+
+.quantityForm {
+  font-size: 0.8em;
+  width: 100%;
+}
+#updateButton {
+  padding-left: 0;
+}
+#removeButton {
+  width: 100%;
+  margin-top: 5px;
+  padding-left: 50%;
+}
+.dropdown {
+  padding-left: 10px;
 }

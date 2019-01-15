@@ -10,9 +10,9 @@ import {
 } from '../store'
 import EmptyCart from './EmptyCart'
 import QuantityForm from './QuantityForm'
+import StripeForm from './StripeForm'
 
 const CartView = props => {
-  let total = props.cart.reduce((sum, cur) => sum + cur.price * 1, 0)
   return props.cart.length ? (
     <Grid>
       <Row>
@@ -30,19 +30,21 @@ const CartView = props => {
               <Col md={7}>
                 <h4>{product.name}</h4>
                 <p>Unit Price: ${product.price}</p>
-                {/* <p>{<QuantityForm />}</p> */}
-                <p>Quantity:{product.quantity || 1}</p>
+                {<QuantityForm product={product} />}
+                {/* <p>Quantity:{product.quantity || 1}</p> */}
                 {/* pass in product id, and either cur logged in user id or null */}
-                <Button
-                  type="button"
-                  bsStyle="danger"
-                  bsSize="xsmall"
-                  onClick={() =>
-                    props.removeProductFromCart(product.id, props.userId || 0)
-                  }
-                >
-                  Remove Item
-                </Button>
+                <div id="removeButton">
+                  <Button
+                    type="button"
+                    bsStyle="danger"
+                    bsSize="xsmall"
+                    onClick={() =>
+                      props.removeProductFromCart(product.id, props.userId || 0)
+                    }
+                  >
+                    Remove Item
+                  </Button>
+                </div>
               </Col>
             </Row>
           </Col>
@@ -51,9 +53,10 @@ const CartView = props => {
       <Row>
         <Col md={6}>
           <h2>
-            <Label bsStyle="warning">Current Total: ${total}</Label>
+            <Label bsStyle="warning">Current Total: ${props.totalPrice}</Label>
           </h2>
         </Col>
+
         <Col md={6}>
           <NavLink to="/products">
             <Button
@@ -76,6 +79,7 @@ const CartView = props => {
 
 const mapStateToProps = state => ({
   cart: state.cartReducer.cart,
+  totalPrice: state.cartReducer.totalPrice,
   userId: state.user.id
 })
 
