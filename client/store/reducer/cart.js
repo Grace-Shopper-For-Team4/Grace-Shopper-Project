@@ -5,10 +5,15 @@ import history from '../../history'
 const GOT_CART = 'GOT_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const UPDATE_TOTAL_PRICE = 'UPDATE_TOTAL_PRICE'
 //action creator export const all
 export const gotCart = cart => ({type: GOT_CART, cart})
 export const addCart = product => ({type: ADD_TO_CART, product})
 export const removeCart = productId => ({type: REMOVE_FROM_CART, productId})
+export const updateTotalPrice = productTotal => ({
+  type: UPDATE_TOTAL_PRICE,
+  productTotal
+})
 
 // thunk creator
 export const fetchCart = id => {
@@ -61,7 +66,10 @@ export const addProductToCart = (product, id) => {
         })
         product = response.data
       }
-      if (product) dispatch(addCart(product))
+      if (product) {
+        dispatch(addCart(product))
+        dispatch(updateTotalPrice(product.price))
+      }
       location.pathname === '/products'
         ? history.push('/products')
         : history.push(location.pathname)
@@ -91,7 +99,8 @@ export const removeProductFromCart = (productId, id) => {
 }
 
 const initialState = {
-  cart: []
+  cart: [],
+  totalPrice: 0
 }
 
 //reducer
@@ -105,6 +114,8 @@ const cartReducer = (state = initialState, action) => {
     case REMOVE_FROM_CART:
       const newCart = state.cart.filter(item => item.id !== action.productId)
       return {...state, cart: newCart}
+    case UPDATE_TOTAL_PRICE:
+      return {...state, totalPrice: state.totalPrice + action.productTotal}
     default:
       return state
   }

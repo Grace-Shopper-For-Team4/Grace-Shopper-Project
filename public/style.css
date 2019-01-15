@@ -100,3 +100,16 @@ div.row {
   height: 620px !important;
   width: 100%;
 }
+
+.quantityForm {
+  font-size: 0.8em;
+  width: 100%;
+}
+#updateButton {
+  padding-left: 0;
+}
+#removeButton {
+  width: 100%;
+  margin-top: 5px;
+  padding-left: 52%;
+}
