@@ -2,8 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import Products from './Products'
-import {getProductsFromServer} from '../../store/reducer/products'
-import ErrorPage from '../errorPage'
+import ErrorPage from './ErrorPage'
 import {ProgressBar} from 'react-bootstrap'
 import queryString from 'query-string'
 import SingleProduct from './SingleProduct'
@@ -11,10 +10,6 @@ import SingleProduct from './SingleProduct'
  * COMPONENT
  */
 class ProductsRoutes extends Component {
-  componentDidMount() {
-    this.props.fetchProducts()
-  }
-
   render() {
     const {products} = this.props
     return products ? (
@@ -29,21 +24,6 @@ class ProductsRoutes extends Component {
             else return <ErrorPage />
           }}
         />
-        <Route
-          path="/products?type=igneos"
-          // render={props => {
-          //   console.log(props)
-          //   console.log(products)
-          //   const type = props.match.params.type
-          //   const exist = products.filter(product => product.type === type)
-          //     .length
-          //   if (exist) {
-          //     return <Products {...props} />
-          //   } else {
-          //     return <ErrorPage />
-          //   }
-          // }}
-        />
       </Switch>
     ) : (
       <ProgressBar active now={60} />
@@ -51,13 +31,8 @@ class ProductsRoutes extends Component {
   }
 }
 const mapStateToProps = state => ({
-  products: state.productsReducer.products
+  products: state.productsReducer.products,
+  userId: state.user.id
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchProducts: () => dispatch(getProductsFromServer())
-})
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProductsRoutes)
-)
+export default withRouter(connect(mapStateToProps, null)(ProductsRoutes))

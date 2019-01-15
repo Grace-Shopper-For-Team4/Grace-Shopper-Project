@@ -4,6 +4,7 @@ body {
 
 a {
   text-decoration: none;
+  color: gray;
 }
 
 label {
@@ -52,6 +53,9 @@ form div {
 .container {
   width: auto;
 }
+div.row {
+  margin-top: 10px;
+}
 
 /*error page*/
 
@@ -86,4 +90,29 @@ form div {
   margin-left: 1em;
   color: red;
   font-weight: bold;
+}
+
+.navbar-inverse {
+  margin-bottom: 0;
+}
+.item img {
+  object-fit: cover;
+  height: 620px !important;
+  width: 100%;
+}
+
+.quantityForm {
+  font-size: 0.8em;
+  width: 100%;
+}
+#updateButton {
+  padding-left: 0;
+}
+#removeButton {
+  width: 100%;
+  margin-top: 5px;
+  padding-left: 50%;
+}
+.dropdown {
+  padding-left: 10px;
 }

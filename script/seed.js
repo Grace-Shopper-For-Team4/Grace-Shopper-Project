@@ -9,88 +9,80 @@ async function seed() {
 
   const products = await Promise.all([
     Product.create({
-      id: 1,
-      name: 'obsidian',
+      name: 'Obsidian',
       description:
         'Obsidian is a naturally occurring volcanic glass formed as an extrusive igneous rock. Obsidian is produced when felsic lava extruded from a volcano cools rapidly with minimal crystal growth.',
       stockQuantity: 100,
       imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
-      price: 100,
+      price: 10000,
       type: 'Igneous'
     }),
     Product.create({
-      id: 2,
-      name: 'granite',
+      name: 'Granite',
       description:
         'Granite is a common type of felsic intrusive igneous rock that is granular and phaneritic in texture. Granites can be predominantly white, pink, or gray in color, depending on their mineralogy.',
       stockQuantity: 500,
       imageUrl:
         'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
-      price: 30,
+      price: 30000,
       type: 'Metamorphic'
     }),
     Product.create({
-      id: 3,
-      name: 'quartz',
+      name: 'Quartz',
       description:
         'Quartz is a mineral composed of silicon and oxygen atoms in a continuous framework of SiO₄ silicon–oxygen tetrahedra, with each oxygen being shared between two tetrahedra, giving an overall chemical formula of SiO₂. Quartz is the second most abundant mineral in Earths continental crust, behind feldspar.',
       stockQuantity: 20,
       imageUrl:
         'http://www.galleries.com/minerals/gemstone/rose_qua/roq-28.jpg',
-      price: 40,
+      price: 40000,
       type: 'Sedimentary'
     }),
     Product.create({
-      id: 4,
-      name: 'basalt',
+      name: 'Basalt',
       description:
         'a dark, fine-grained volcanic rock that sometimes displays a columnar structure. It is typically composed largely of plagioclase with pyroxene and olivine.',
       stockQuantity: 50,
       imageUrl: 'https://geology.com/rocks/pictures/basalt-380.jpg',
-      price: 100,
+      price: 12500,
       type: 'Igneous'
     }),
     Product.create({
-      id: 5,
-      name: 'limestone',
+      name: 'Limestone',
       description:
         'Limestone is a sedimentary rock, composed mainly of skeletal fragments of marine organisms such as coral, forams and molluscs',
       stockQuantity: 40,
       imageUrl: 'https://geology.com/rocks/pictures/limestone-tufa-380.jpg',
-      price: 100,
+      price: 31000,
       type: 'Sedimentary'
     }),
     Product.create({
-      id: 6,
-      name: 'shale',
+      name: 'Shale',
       description:
         'Shale is a fine-grained, clastic sedimentary rock composed of mud that is a mix of flakes of clay minerals and tiny fragments of other minerals, especially quartz and calcite. Shale is characterized by breaks along thin laminae or parallel layering or bedding less than one centimeter in thickness, called fissility',
-      stockQuantity: 30,
+      stockQuantity: 50,
       imageUrl:
         'https://www.thoughtco.com/thmb/lAcAtCAwY7l_0uKtQzAaUFtcRSE=/500x378/filters:no_upscale()/basaltcrust-56a367293df78cf7727d2fe1.jpg',
-      price: 200,
+      price: 9500,
       type: 'Sedimentary'
     }),
     Product.create({
-      id: 7,
-      name: 'obsidian',
+      name: 'Pile of Ugly Rocks',
       description:
-        'Obsidian is a naturally occurring volcanic glass formed as an extrusive igneous rock. Obsidian is produced when felsic lava extruded from a volcano cools rapidly with minimal crystal growth.',
+        'We have the typical rocks coming up on our farm, plus old pieces of cement foundation from a previous barn. They are not attractive, even when the dirt is off of them. What should we do with them? Farm work will inevitably produce more of them so whatever we do has to be able to continue to (slowly) grow over the next few decades.',
       stockQuantity: 100,
-      imageUrl: 'https://geology.com/rocks/pictures/obsidian-380.jpg',
-      price: 100,
+      imageUrl: 'http://www.rocksforfun.com/image/rock245b.jpg',
+      price: 846,
       type: 'Igneous'
     }),
     Product.create({
-      id: 8,
-      name: 'granite',
+      name: 'A Piece of Stonehenge',
       description:
-        'Granite is a common type of felsic intrusive igneous rock that is granular and phaneritic in texture. Granites can be predominantly white, pink, or gray in color, depending on their mineralogy.',
-      stockQuantity: 500,
+        'Selling these pieces of history is more graverobbing than actuale-commerce, so naturally this is an expensive product.',
+      stockQuantity: 12,
       imageUrl:
         'https://flexiblelearning.auckland.ac.nz/rocks_minerals/rocks/images/granite1.jpg',
-      price: 30,
-      type: 'Igneous'
+      price: 350000000,
+      type: 'Metamorphic'
     }),
     Product.create({
       id: 9,

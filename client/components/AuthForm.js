@@ -1,8 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {SocialIcon} from 'react-social-icons'
 import {auth} from '../store'
+
 import {
   Form,
   FormGroup,
@@ -38,10 +40,6 @@ const AuthForm = props => {
 
         <Button type="submit">{displayName}</Button>
       </Form>
-      <Button id="googleButton" type="submit" href="/auth/google">
-        {displayName}{' '}
-        <SocialIcon url="http://google" style={{height: 25, width: 25}} />
-      </Button>
     </div>
   )
 }
