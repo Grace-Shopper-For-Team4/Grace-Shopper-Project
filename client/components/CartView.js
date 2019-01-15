@@ -5,6 +5,7 @@ import {NavLink} from 'react-router-dom'
 import {fetchCart, removeProductFromCart, addProductToCart} from '../store'
 import EmptyCart from './EmptyCart'
 import QuantityForm from './QuantityForm'
+import StripeForm from './StripeForm'
 
 const CartView = props => {
   let total = props.cart.reduce((sum, cur) => sum + cur.price * 1, 0)
@@ -49,6 +50,7 @@ const CartView = props => {
             <Label bsStyle="warning">Current Total: ${total}</Label>
           </h2>
         </Col>
+
         <Col md={6}>
           <Button
             className="pull-right"
@@ -58,6 +60,7 @@ const CartView = props => {
           >
             Checkout!
           </Button>
+          <StripeForm />
         </Col>
       </Row>
     </Grid>
