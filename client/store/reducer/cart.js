@@ -1,16 +1,19 @@
 /* eslint-disable no-case-declarations */
 import axios from 'axios'
 import history from '../../history'
+import {getProductsFromServer} from './products'
 
 // action type
 const GOT_CART = 'GOT_CART'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
+const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST'
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
 //action creator export const all
 export const gotCart = (cart, total) => ({type: GOT_CART, cart, total})
 export const addCart = product => ({type: ADD_TO_CART, product})
 export const removeCart = productId => ({type: REMOVE_FROM_CART, productId})
+export const gotCheckout = userCart => ({type: CHECKOUT_REQUEST, userCart})
 export const updateQuantity = product => ({type: UPDATE_QUANTITY, product})
 
 // help function
@@ -122,6 +125,27 @@ export const updateCart = (quantity, product, userId) => {
   }
 }
 
+export const commitCheckout = userId => {
+  return async dispatch => {
+    try {
+      if (!userId) {
+        let cart = JSON.parse(window.localStorage.getItem('cart'))
+        const {data} = await axios.put(`/api/users/0/cart/`, {cart: cart})
+        window.localStorage.setItem('cart', JSON.stringify([]))
+        dispatch(gotCheckout(data))
+      } else {
+        const {data} = await axios.put(`/api/users/${userId}/cart/`)
+
+        dispatch(gotCheckout(data))
+      }
+
+      dispatch(getProductsFromServer())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const initialState = {
   cart: [],
   totalPrice: 0
@@ -141,6 +165,8 @@ const cartReducer = (state = initialState, action) => {
     case REMOVE_FROM_CART:
       let newCart = state.cart.filter(item => item.id !== action.productId)
       return {...state, cart: newCart}
+    case CHECKOUT_REQUEST:
+      return {cart: []}
     case UPDATE_QUANTITY:
       newCart = state.cart.filter(item => item.id !== action.product.id)
       return {...state, cart: [...newCart, action.product]}
