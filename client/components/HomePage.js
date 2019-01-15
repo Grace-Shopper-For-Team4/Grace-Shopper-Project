@@ -3,7 +3,7 @@ import {Carousel} from 'react-bootstrap'
 
 const HomePage = () => {
   return (
-    <Carousel>
+    <Carousel interval={2000}>
       <Carousel.Item>
         <img
           alt="900x500"
