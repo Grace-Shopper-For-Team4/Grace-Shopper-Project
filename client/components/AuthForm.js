@@ -40,14 +40,6 @@ const AuthForm = props => {
 
         <Button type="submit">{displayName}</Button>
       </Form>
-
-      <NavLink to="/auth/google">
-        {' '}
-        <Button id="googleButton" type="submit">
-          {displayName}{' '}
-          <SocialIcon url="http://google" style={{height: 25, width: 25}} />
-        </Button>{' '}
-      </NavLink>
     </div>
   )
 }

@@ -36,14 +36,22 @@ const SingleProduct = props => {
               Back to All Product
             </Button>
           </NavLink>
-          <Button
-            className="pull-right"
-            type="button"
-            bsStyle="primary"
-            onClick={() => addProductToCart(product, props.userId || 0)}
-          >
-            Add To Cart
-          </Button>
+          {props.cart.some(item => item.id === product.id) ? (
+            <NavLink to="/cart">
+              <Button bsStyle="warning" className="pull-right">
+                Change Quantity
+              </Button>
+            </NavLink>
+          ) : (
+            <Button
+              type="button"
+              bsStyle="success"
+              className="pull-right"
+              onClick={() => addProductToCart(product, props.userId || 0)}
+            >
+              Add To Cart
+            </Button>
+          )}
         </Col>
       </Row>
     </Grid>
@@ -54,7 +62,8 @@ const SingleProduct = props => {
 
 const mapStateToProps = state => ({
   products: state.productsReducer.products,
-  userId: state.user.id
+  userId: state.user.id,
+  cart: state.cartReducer.cart
 })
 
 const mapDispatchToProps = dispatch => ({

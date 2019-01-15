@@ -4,6 +4,7 @@ body {
 
 a {
   text-decoration: none;
+  color: gray;
 }
 
 label {
@@ -96,6 +97,6 @@ div.row {
 }
 .item img {
   object-fit: cover;
-  height: 920px !important;
+  height: 620px !important;
   width: 100%;
 }

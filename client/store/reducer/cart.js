@@ -1,4 +1,5 @@
 import axios from 'axios'
+import history from '../../history'
 
 // action type
 const GOT_CART = 'GOT_CART'
@@ -61,6 +62,9 @@ export const addProductToCart = (product, id) => {
         product = response.data
       }
       if (product) dispatch(addCart(product))
+      location.pathname === '/products'
+        ? history.push('/products')
+        : history.push(location.pathname)
     } catch (error) {
       console.error(error)
     }
