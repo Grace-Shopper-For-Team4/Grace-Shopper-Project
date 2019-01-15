@@ -34,5 +34,5 @@ describe('thunk creators', () => {
       expect(actions[0].type).to.be.equal('GOT_PRODUCTS_FROM_SERVER')
       expect(actions[0].products).to.be.deep.equal(fakeProducts)
     })
-  })
+  }) //end getProducts describe block
 })
