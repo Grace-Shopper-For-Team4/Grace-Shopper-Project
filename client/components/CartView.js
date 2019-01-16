@@ -70,6 +70,7 @@ const CartView = props => {
               Checkout!
             </Button>
           </NavLink>
+          <StripeForm />
         </Col>
       </Row>
     </Grid>
